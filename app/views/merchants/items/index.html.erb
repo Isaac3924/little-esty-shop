@@ -1,9 +1,16 @@
-<h3><%= @merchant.name %></h3>
+<header>
+  <h2><%= @merchant.name %></h2>
+</header>
+<nav>
+  <!-- Partial for navigation -->
+</nav>
 
-<h4>New Item</h4>
+<section>
+  <h3>New Item</h3>
 
-<ul id="items_list">
-  <% @items.each do |item| %>
-    <li><%= link_to "#{item.name}", merchant_item_path(@merchant.id, item.id) %></li>
-  <% end %>
-</ul>
+  <ul id="items_list">
+    <% @items.each do |item| %>
+      <li><%= link_to "#{item.name}", merchant_item_path(@merchant.id, item.id) %></li>
+    <% end %>
+  </ul>
+</section>
