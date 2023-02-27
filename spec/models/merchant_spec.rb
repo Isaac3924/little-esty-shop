@@ -131,7 +131,7 @@ RSpec.describe Merchant, type: :model do
 
     it '#merchant_top_5_customers' do 
       require 'pry'; binding.pry
-      
+
       expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
       expect(rose.merchant_top_5_customers[0].successful_order).to eq(3)
 
