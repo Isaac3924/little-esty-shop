@@ -28,6 +28,12 @@ RSpec.describe "Admin Merchants Index", type: :feature do
         expect(page).to have_content("7-11")
         expect(page).to have_content("#{zob.name}")
       end
+
+      it 'I see a link to create a new merchant' do
+        within("header#admin_header") do
+          expect(page).to have_link("Create New Merchant")
+        end
+      end
     end
   end
 end
