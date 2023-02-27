@@ -22,6 +22,10 @@ class Admin::MerchantsController < ApplicationController
       flash[:error] = "Error: Invalid form entry"
     end
   end
+
+  def new
+
+  end
   
   private
   
