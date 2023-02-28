@@ -5,6 +5,10 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
+  def self.create_new_merchant(merchant_params)
+    create(merchant_params)
+  end
+
   def merchant_invoices
     invoices.distinct.order(:id)
   end

@@ -1,0 +1,10 @@
+<header>
+  <h2>New Merchant Submission</h2>
+</header>
+<section id="new_merchant">
+  <%=  form_with url: admin_merchants_path, method: :post, local: true do |f| %>
+    <%=  f.label :name, "Merchant Name:" %>
+    <%=  f.text_field :name, required: true %><br>
+    <%=  f.submit "Submit" %>
+  <% end %>
+</section>

@@ -137,7 +137,7 @@ RSpec.describe 'Merchant Items', type: :feature do
           end
         end
 
-        context "When I visit the Merchant Item Edit Form" do
+        context "When I visit the Merchant Item New Form" do
           before (:each) do 
             visit new_merchant_item_path(sam.id)
           end

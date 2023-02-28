@@ -26,11 +26,27 @@ class Admin::MerchantsController < ApplicationController
   def new
 
   end
-  
+
+  def create
+    @new_merchant = Merchant.create_new_merchant(merchant_params)
+
+    if @new_merchant.save
+      redirect_to admin_merchants_path
+      flash[:success] = "Merchant Successfully Added"
+    else
+      redirect_to new_admin_merchant_path
+      flash[:notice] = error_message(@new_merchant.errors)
+    end
+  end
+
   private
   
   def merchant_params
-    params.permit(:id, merchant: :merchant_name)
+    params.permit(
+      :id,
+      :name,
+      merchant: :merchant_name
+    )
     # x = params[:merchant].permit(:merchant_name)
   end
 end

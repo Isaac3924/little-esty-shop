@@ -22,7 +22,17 @@ RSpec.describe Merchant, type: :model do
     @baseball_inv = InvoiceItem.create!(invoice_id: invoice1.id, item_id: baseball.id, status: 1)
     @glove_inv = InvoiceItem.create!(invoice_id: invoice2.id, item_id: glove.id, status: 2)
   end
+  describe 'class methods' do
+    context '#create_new_merchant()' do
+      it "creates a new merchant to the database" do 
+        merchant_params = {
+          name: "Tidus' Surf Shop"
+        }
 
+        expect(Merchant.create_new_merchant(merchant_params)).to eq(Merchant.all.last)
+      end
+    end
+  end
   describe 'instance methods' do
     it '#merchant_invoices' do
       expect(sam.merchant_invoices).to eq([invoice1, invoice2])

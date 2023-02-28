@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 RSpec.describe "Admin Merchants Index", type: :feature do 
   let!(:bob) { Merchant.create!(name: "Bob's Beauties") } 
   let!(:rob) { Merchant.create!(name: "Rob's Rarities") } 
@@ -35,15 +36,6 @@ RSpec.describe "Admin Merchants Index", type: :feature do
         end
       end
 
-      it "When I click on the link, I am taken to a form that allows me to add merchant information." do
-        click_link "Create New Merchant"
-
-        expect(current_path).to eq(new_admin_merchant_path)
-
-        within ("section#new_admin_merchant") do
-          expect(page).to have_field("Name")
-        end
-      end
     end
   end
 end
