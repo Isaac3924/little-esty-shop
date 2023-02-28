@@ -29,26 +29,26 @@ RSpec.describe Merchant, type: :model do
   let!(:josalyn) { Customer.create!(first_name: "Josalyn", last_name: "Schitt") }
   let!(:stevie) { Customer.create!(first_name: "Stevie", last_name: "Budd") }
 
-  let!(:black_dress_inv) { moira.invoices.create!(customer_id: moira.id, status: "completed") }
-  let!(:black_sunglasses_inv) { moira.invoices.create!(customer_id: moira.id, status: "completed") }
-  let!(:black_feather_boa_inv) { moira.invoices.create!(customer_id: moira.id, status: "completed") }
-  let!(:obsidian_ring_inv) { moira.invoices.create!(customer_id: moira.id, status: "completed") }
-  let!(:red_lipstick_inv) { moira.invoices.create!(customer_id: moira.id, status: "completed") }
+  let!(:black_dress_inv) { moira.invoices.create!(status: "completed") }
+  let!(:black_sunglasses_inv) { moira.invoices.create!(status: "completed") }
+  let!(:black_feather_boa_inv) { moira.invoices.create!(status: "completed") }
+  let!(:obsidian_ring_inv) { moira.invoices.create!(status: "completed") }
+  let!(:red_lipstick_inv) { moira.invoices.create!(status: "completed") }
 
-  let!(:gold_bangle_inv) { alexis.invoices.create!(customer_id: alexis.id, status: "completed") }
-  let!(:boho_dress_inv) { alexis.invoices.create!(customer_id: alexis.id, status: "completed") }
-  let!(:headband_inv) { alexis.invoices.create!(customer_id: alexis.id, status: "completed") }
-  let!(:hoop_earrings_inv){ alexis.invoices.create!(customer_id: alexis.id, status: "completed") }
+  let!(:gold_bangle_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:boho_dress_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:headband_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:hoop_earrings_inv){ alexis.invoices.create!(status: "completed") }
 
-  let!(:titanium_ring_inv) { david.invoices.create!(customer_id: david.id, status: "completed") }
-  let!(:hand_cream_inv) { david.invoices.create!(customer_id: david.id, status: "completed") }
-  let!(:goat_cheese_inv) { david.invoices.create!(customer_id: david.id, status: "completed") }
+  let!(:titanium_ring_inv) { david.invoices.create!(status: "completed") }
+  let!(:hand_cream_inv) { david.invoices.create!(status: "completed") }
+  let!(:goat_cheese_inv) { david.invoices.create!(status: "completed") }
 
-  let!(:cuff_links_inv) { johnny.invoices.create!(customer_id: johnny.id, status: "completed") }
-  let!(:tie_inv) { johnny.invoices.create!(customer_id: johnny.id, status: "completed") }
-  let!(:floral_shirt_inv) { josalyn.invoices.create!(customer_id: josalyn.id, status: "completed") }
-  let!(:flannel_shirt_inv) { stevie.invoices.create!(customer_id: stevie.id, status: "completed") }
-  let!(:fishnet_tights_inv) { roland.invoices.create!(customer_id: roland.id, status: "cancelled") }
+  let!(:cuff_links_inv) { johnny.invoices.create!(status: "completed") }
+  let!(:tie_inv) { johnny.invoices.create!(status: "completed") }
+  let!(:floral_shirt_inv) { josalyn.invoices.create!(status: "completed") }
+  let!(:flannel_shirt_inv) { stevie.invoices.create!(status: "completed") }
+  let!(:fishnet_tights_inv) { roland.invoices.create!(status: "cancelled") }
   
   let!(:this_gai_ovah_hea) { Customer.create!(first_name: "Dis", last_name: "Gai") }
   let!(:nkelthuraksyyll) { Customer.create!(first_name: "N'kelthuraksyyll", last_name: "The unboud, Lord of ten Thousand chains unBroken, Vanquisher of KMart") }
@@ -99,17 +99,17 @@ RSpec.describe Merchant, type: :model do
 
     #Moira inv_items
     @black_dress_inv_item = InvoiceItem.create!(invoice_id: black_dress_inv.id, item_id: black_dress.id, status: 2)
-    @obsidian_ring_inv_item = InvoiceItem.create!(invoice_id: obsidian_ring_inv.id, item_id: obsidian_ring.id, status: 2)
-    @red_lipstick_inv_inv_item = InvoiceItem.create!(invoice_id: red_lipstick_inv.id, item_id: red_lipstick.id, status: 2)
+    # @obsidian_ring_inv_item = InvoiceItem.create!(invoice_id: obsidian_ring_inv.id, item_id: obsidian_ring.id, status: 2)
+    # @red_lipstick_inv_inv_item = InvoiceItem.create!(invoice_id: red_lipstick_inv.id, item_id: red_lipstick.id, status: 2)
     
     
     #Alexis inv_items
     @gold_bangle_inv_item = InvoiceItem.create!(invoice_id: gold_bangle_inv.id, item_id: gold_bangle.id, status: 2)
-    @boho_dress_inv_item = InvoiceItem.create!(invoice_id: boho_dress_inv.id, item_id: boho_dress.id, status: 2)
+    # @boho_dress_inv_item = InvoiceItem.create!(invoice_id: boho_dress_inv.id, item_id: boho_dress.id, status: 2)
     
     #David inv_items
     @titanium_ring_inv_item = InvoiceItem.create!(invoice_id: titanium_ring_inv.id, item_id: titanium_ring.id, status: 2)
-    @hand_cream_inv_item = InvoiceItem.create!(invoice_id: hand_cream_inv.id, item_id: hand_cream.id, status: 2)
+    # @hand_cream_inv_item = InvoiceItem.create!(invoice_id: hand_cream_inv.id, item_id: hand_cream.id, status: 2)
     
     #Johnny inv_items
     @cuff_links_inv_item = InvoiceItem.create!(invoice_id: cuff_links_inv.id, item_id: cuff_links.id, status: 2)
@@ -172,53 +172,33 @@ RSpec.describe Merchant, type: :model do
     it '#disabled_items' do 
       expect(sam.disabled_items).to eq([glove])
     end
+
+    it '#merchant_top_5_customers' do 
+      # require 'pry'; binding.pry
+      expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
+      expect(rose.merchant_top_5_customers[0].successful_order).to eq(5)
+
+      expect(rose.merchant_top_5_customers[1].full_name).to eq("#{alexis.first_name} #{alexis.last_name}")
+      expect(rose.merchant_top_5_customers[1].successful_order).to eq(4)
+
+      expect(rose.merchant_top_5_customers[2].full_name).to eq("#{david.first_name} #{david.last_name}")
+      expect(rose.merchant_top_5_customers[2].successful_order).to eq(3)
+
+      expect(rose.merchant_top_5_customers[3].full_name).to eq("#{johnny.first_name} #{johnny.last_name}")
+      expect(rose.merchant_top_5_customers[3].successful_order).to eq(2)
+
+      expect(rose.merchant_top_5_customers[4].full_name).to eq("#{josalyn.first_name} #{josalyn.last_name}")
+      expect(rose.merchant_top_5_customers[4].successful_order).to eq(1)
+    end
   end
 
   describe '.scope' do 
     it '.disabled_merchants' do 
-      expect(Merchant.disabled_merchants).to eq([bob, rob])
+      expect(Merchant.disabled_merchants).to eq([rose, bob, rob])
     end
 
     it '.enabled_merchants' do 
       expect(Merchant.enabled_merchants).to eq([sam])
-    end
-
-    it '#merchant_top_5_customers' do 
-      require 'pry'; binding.pry
-
-      expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
-      expect(rose.merchant_top_5_customers[0].successful_order).to eq(3)
-
-      expect(rose.merchant_top_5_customers[1].full_name).to eq("#{alexis.first_name} #{alexis.last_name}")
-      expect(rose.merchant_top_5_customers[1].successful_order).to eq(2)
-
-      expect(rose.merchant_top_5_customers[2].full_name).to eq("#{david.first_name} #{david.last_name}")
-      expect(rose.merchant_top_5_customers[2].successful_order).to eq(2)
-
-      expect(rose.merchant_top_5_customers[3].full_name).to eq("#{johnny.first_name} #{johnny.last_name}")
-      expect(rose.merchant_top_5_customers[3].successful_order).to eq(1)
-
-      expect(rose.merchant_top_5_customers[4].full_name).to eq("#{josalyn.first_name} #{josalyn.last_name}")
-      expect(rose.merchant_top_5_customers[4].successful_order).to eq(1)
-    end
-
-    it '#merchant_top_5_customers' do 
-      require 'pry'; binding.pry
-
-      expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
-      expect(rose.merchant_top_5_customers[0].successful_order).to eq(3)
-
-      expect(rose.merchant_top_5_customers[1].full_name).to eq("#{alexis.first_name} #{alexis.last_name}")
-      expect(rose.merchant_top_5_customers[1].successful_order).to eq(2)
-
-      expect(rose.merchant_top_5_customers[2].full_name).to eq("#{david.first_name} #{david.last_name}")
-      expect(rose.merchant_top_5_customers[2].successful_order).to eq(2)
-
-      expect(rose.merchant_top_5_customers[3].full_name).to eq("#{johnny.first_name} #{johnny.last_name}")
-      expect(rose.merchant_top_5_customers[3].successful_order).to eq(1)
-
-      expect(rose.merchant_top_5_customers[4].full_name).to eq("#{josalyn.first_name} #{josalyn.last_name}")
-      expect(rose.merchant_top_5_customers[4].successful_order).to eq(1)
     end
   end
 end
