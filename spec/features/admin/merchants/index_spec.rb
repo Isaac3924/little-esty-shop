@@ -36,6 +36,7 @@ RSpec.describe "Admin Merchants Index", type: :feature do
         within "div#enabled_merchant-#{hob.id}" do
           expect(page).to have_button('Disable')
         end
+        
         within "div#disabled_merchant-#{rob.id}" do
           expect(page).to have_button('Enable')
         end
@@ -74,7 +75,6 @@ RSpec.describe "Admin Merchants Index", type: :feature do
       end
 
       it 'changes the status of the item after the button click' do
-        save_and_open_page
         within "div#enabled_merchant-#{bob.id}" do
           click_button 'Disable'
           bob.reload
