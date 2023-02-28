@@ -36,6 +36,12 @@ RSpec.describe "Admin Merchants Index", type: :feature do
         end
       end
 
+      it "When I click on the link, I am taken to a form that allows me to add merchant information." do
+        click_link "Create New Merchant"
+
+        expect(current_path).to eq(new_admin_merchant_path)
+      end
+
     end
   end
 end

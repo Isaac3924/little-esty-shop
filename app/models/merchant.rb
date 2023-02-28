@@ -5,6 +5,8 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
+  validates_presence_of :name
+
   def self.create_new_merchant(merchant_params)
     create(merchant_params)
   end

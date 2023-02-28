@@ -40,10 +40,9 @@ class Merchants::ItemsController < ApplicationController
 
   def create
     @new_item = Item.create_new_item(item_params)
-
     if @new_item.save
       redirect_to merchant_items_path(item_params[:merchant_id])
-      flash[:success] = "Item Successfully Updated"
+      flash[:success] = "Item Successfully Created"
     else
       redirect_to new_merchant_item_path(item_params[:merchant_id])
       flash[:notice] = error_message(@new_item.errors)
