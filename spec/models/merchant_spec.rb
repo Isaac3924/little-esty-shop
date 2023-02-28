@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
 
+  describe 'relationships' do
+    it { should have_many :items }
+    it { should have_many :invoices }
+    it { should have_many(:invoice_items).through(:items) }
+  end
+
   let!(:rose) { Merchant.create!(name: "Rose Apothecary") }
   let!(:black_dress) { rose.items.create!(name: "Black Dress", description: "This a black_dress", unit_price: 3000) }
   let!(:black_sunglasses) { rose.items.create!(name: " Black Sunglasses", description: "Black sunglasses", unit_price: 2500) }
@@ -138,12 +144,6 @@ RSpec.describe Merchant, type: :model do
     Transaction.create!(invoice_id: floral_shirt_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
     Transaction.create!(invoice_id: flannel_shirt_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
     Transaction.create!(invoice_id: fishnet_tights_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "failed")
-  end
-
-  describe 'relationships' do
-    it { should have_many :items }
-    it { should have_many :invoices }
-    it { should have_many(:invoice_items).through(:items) }
   end
   
   describe 'instance methods' do
