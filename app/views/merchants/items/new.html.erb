@@ -3,7 +3,6 @@
 </header>
 <section id="new_item">
   <%=  form_with url: merchant_items_path(@merchant.id), local: true do |f| %>
-    <%=  f.hidden_field :status, value: "disabled" %>
     <%=  f.label :name, "Item Name:" %>
     <%=  f.text_field :name, required: true %><br>
     <%=  f.label :description, "Description:" %>
