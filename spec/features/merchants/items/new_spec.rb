@@ -7,7 +7,7 @@ RSpec.describe 'Merchants Items', type: :feature do
 
     describe 'When I visit my merchant items new page' do
       context "When I visit the Merchant Items New Page" do
-
+        
         it "When I click on the link, I am taken to a form that allows me to add item information." do
           visit merchant_items_path(sam.id)
           
@@ -38,7 +38,7 @@ RSpec.describe 'Merchants Items', type: :feature do
           end
 
           expect(current_path).to eq(merchant_items_path(sam.id))
-          
+
           within("div#disabled_item-#{sam.items.first.id}") do
             expect(page).to have_content(sam.items.first.name)
             expect(page).to have_button("Enable")
