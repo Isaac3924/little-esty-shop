@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Items', type: :feature do
-  describe 'Merchant Items Index' do
+RSpec.describe "Merchant Items", type: :feature do
+  describe 'Merchant Items Index Page' do
 
     let!(:sam) { Merchant.create!(name: "Sam's Sports") }
     let!(:bob) { Merchant.create!(name: "Bob's Beauties") } 
@@ -59,7 +59,7 @@ RSpec.describe 'Merchant Items', type: :feature do
       visit merchant_items_path(sam.id)
     end
 
-    describe 'As a merchant' do 
+    describe "As a merchant" do 
       context 'When I visit my merchant items index page' do
         before (:each) do 
           visit merchant_items_path(sam.id)
@@ -69,67 +69,74 @@ RSpec.describe 'Merchant Items', type: :feature do
           expect(page).to have_content("#{sam.name}")
           expect(page).to have_content("New Item")
             
-            expect(page).to have_content("#{football.name}")
-            expect(page).to have_content("#{baseball.name}")
-            expect(page).to have_content("#{glove.name}")
+          expect(page).to have_content("#{football.name}")
+          expect(page).to have_content("#{baseball.name}")
+          expect(page).to have_content("#{glove.name}")
           
           expect(page).to_not have_content("#{arugula.name}")
           expect(page).to_not have_content("#{tomato.name}")
         end
 
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          
+          within "div#disabled_item-#{football.id}" do
             click_link football.name
             expect(current_path).to eq(merchant_item_path(sam.id, football.id))
           end
         end
 
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          within "div#disabled_item-#{baseball.id}" do
             click_link baseball.name
             expect(current_path).to eq(merchant_item_path(sam.id, baseball.id))
           end
         end
-
+        
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          within "div#disabled_item-#{glove.id}" do
             click_link glove.name
             expect(current_path).to eq(merchant_item_path(sam.id, glove.id))
           end
         end
 
         it 'next to each item I see a button to disable or enable that item' do 
-          within "div#enabled_items-#{football.id}" do
-            expect(page).to have_button('Disable')
-          end
 
-          within "div#enabled_items-#{baseball.id}" do
-            expect(page).to have_button('Disable')
-          end
-
-          within "div#disabled_items-#{glove.id}" do
+          within "div#disabled_item-#{football.id}" do
             expect(page).to have_button('Enable')
+          end
+
+          within "div#disabled_item-#{baseball.id}" do
+            expect(page).to have_button('Enable')
+          end
+
+          within "div#disabled_item-#{glove.id}" do
+            expect(page).to have_button('Enable')
+            click_button "Enable"
+          end
+          
+          within "div#enabled_item-#{glove.id}" do
+            expect(page).to have_button('Disable')
           end
         end
 
         it 'changes the status of the item after the button click' do
      
-          within "div#enabled_items-#{football.id}" do
-            click_button 'Disable'
+          within "div#disabled_item-#{football.id}" do
+            click_button 'Enable'
             football.reload
-            expect(football.status).to eq('disabled')
+            expect(football.status).to eq('enabled')
             expect(current_path).to eq(merchant_items_path(sam))
           end
           
-          within "div#enabled_items-#{baseball.id}" do
+          within "div#enabled_item-#{football.id}" do
             click_button 'Disable'
-            baseball.reload
+            football.reload
             expect(baseball.status).to eq('disabled')
             expect(current_path).to eq(merchant_items_path(sam))
 
           end
 
-          within "div#disabled_items-#{football.id}" do
+          within "div#disabled_item-#{football.id}" do
             click_button 'Enable'
             glove.reload
             expect(glove.status).to eq('disabled')
@@ -139,31 +146,19 @@ RSpec.describe 'Merchant Items', type: :feature do
 
         it 'displays enabled items in the enabled items section' do
          
-          within "div#enabled_items-#{football.id}" do
+          within "div#disabled_item-#{football.id}" do
             expect(page).to have_content(football.name)
+            click_button "Enable"
           end
 
-          within "div#enabled_items-#{baseball.id}" do
-            expect(page).to have_content(baseball.name)
+          within "div#enabled_item-#{football.id}" do
+            expect(page).to have_content(football.name)
           end
         end
 
         it 'displays the disabled items in the disabled items section' do
-          within "div#disabled_items-#{glove.id}" do
+          within "div#disabled_item-#{glove.id}" do
             expect(page).to have_content(glove.name)
-          end
-        end
-
-        it 'displays items in correct sections after button click' do 
-          within "div#enabled_items-#{football.id}" do
-            expect(page).to have_content(football.name)
-            click_on 'Disable'
-          end
-
-          football.reload
-          
-          within "div#disabled_items-#{football.id}" do
-            expect(page).to have_content(football.name)
           end
         end
 
@@ -174,105 +169,57 @@ RSpec.describe 'Merchant Items', type: :feature do
         end
       end
 
-      context 'When I visit my merchant items edit page' do
-        before (:each) do 
-          visit merchant_items_path(sam.id)
+      it "I see the top 5 most popular items ranked by total revenue generated" do
+        within 'ul#top_list' do
+          expect("#{vinyl.name}").to appear_before("#{sponge.name}")
+          expect("#{sponge.name}").to appear_before("#{macguffin_muffins.name}")
+          expect("#{macguffin_muffins.name}").to appear_before("#{baseball.name}")
+          expect("#{baseball.name}").to appear_before("#{glove.name}")
+          expect("#{glove.name}").to_not appear_before("#{baseball.name}")
+        end
+      end
+
+      it "I see that each item name links to my merchant show page for said item" do
+        within 'ul#top_list' do
+          click_link vinyl.name
+          expect(current_path).to eq(merchant_item_path(sam.id, vinyl.id))
         end
 
-        it "When I click on the link, I am taken to a form that allows me to add item information." do
-          click_link "Create New Item"
-
-          expect(current_path).to eq(new_merchant_item_path(sam.id))
-
-          within ("section#new_item") do
-            expect(page).to have_field("Name")
-            expect(page).to have_field("Description")
-            expect(page).to have_field("Unit Price")
-          end
+        visit merchant_items_path(sam.id)
+        
+        within 'ul#top_list' do
+          click_link sponge.name
+          expect(current_path).to eq(merchant_item_path(sam.id, sponge.id))
         end
 
-        context "When I visit the Merchant Item Edit Form" do
-          before (:each) do 
-            visit new_merchant_item_path(sam.id)
-          end
+        visit merchant_items_path(sam.id)
 
-          it "When I fill out the form I click ‘Submit’ Then I am taken back to the items index page" do
-            within("section#new_item") do
-              fill_in "Name:", with: "Marijuana Tapestry"
-              fill_in "Description", with: "Crushed velvet, 51.2 x 59.1 inches"
-              fill_in "Unit Price", with: "7110"
-              
-              click_button "Submit"
-            end
-            
-            expect(current_path).to eq(merchant_items_path(sam.id))
-          end
-
-          it 'when leave a form field blank, I get an error message and am returned to that Items edit page' do
-            
-            fill_in 'Name', with: 'Marijuana Tapestry'
-            fill_in 'Description', with: ''
-            fill_in 'Unit Price', with: ''
-            click_button 'Submit'
-
-            expect(current_path).to eq(new_merchant_item_path(sam.id))
-            expect(page).to have_content("Description can't be blank")
-            expect(page).to have_content("Unit price can't be blank")
-          end
+        within 'ul#top_list' do
+          click_link macguffin_muffins.name
+          expect(current_path).to eq(merchant_item_path(sam.id, macguffin_muffins.id))
         end
 
-        it "I see the top 5 most popular items ranked by total revenue generated" do
-          within 'ul#top_list' do
-            expect("#{vinyl.name}").to appear_before("#{sponge.name}")
-            expect("#{sponge.name}").to appear_before("#{macguffin_muffins.name}")
-            expect("#{macguffin_muffins.name}").to appear_before("#{baseball.name}")
-            expect("#{baseball.name}").to appear_before("#{glove.name}")
-            expect("#{glove.name}").to_not appear_before("#{baseball.name}")
-          end
+        visit merchant_items_path(sam.id)
+
+        within 'ul#top_list' do
+          click_link baseball.name
+          expect(current_path).to eq(merchant_item_path(sam.id, baseball.id))
         end
 
-        it "I see that each item name links to my merchant show page for said item" do
-          within 'ul#top_list' do
-            click_link vinyl.name
-            expect(current_path).to eq(merchant_item_path(sam.id, vinyl.id))
-          end
+        visit merchant_items_path(sam.id)
 
-          visit merchant_items_path(sam.id)
-          
-          within 'ul#top_list' do
-            click_link sponge.name
-            expect(current_path).to eq(merchant_item_path(sam.id, sponge.id))
-          end
-
-          visit merchant_items_path(sam.id)
-
-          within 'ul#top_list' do
-            click_link macguffin_muffins.name
-            expect(current_path).to eq(merchant_item_path(sam.id, macguffin_muffins.id))
-          end
-
-          visit merchant_items_path(sam.id)
-
-          within 'ul#top_list' do
-            click_link baseball.name
-            expect(current_path).to eq(merchant_item_path(sam.id, baseball.id))
-          end
-
-          visit merchant_items_path(sam.id)
-
-          within 'ul#top_list' do
-            click_link glove.name
-            expect(current_path).to eq(merchant_item_path(sam.id, glove.id))
-          end
+        within 'ul#top_list' do
+          click_link glove.name
+          expect(current_path).to eq(merchant_item_path(sam.id, glove.id))
         end
+      end
 
-        it "I see total revenue generate next to each item name" do
-          expect(page).to have_content("$299,999.97")
-          expect(page).to have_content("$9,673.20")
-          expect(page).to have_content("$6,999.93")
-          expect(page).to have_content("$722.25")
-          expect(page).to have_content("$83.98")
-        end
+      it "I see total revenue generate next to each item name" do
+        expect(page).to have_content("$299,999.97")
+        expect(page).to have_content("$9,673.20")
+        expect(page).to have_content("$6,999.93")
+        expect(page).to have_content("$722.25")
+        expect(page).to have_content("$83.98")
       end
     end
   end

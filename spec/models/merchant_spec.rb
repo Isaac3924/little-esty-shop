@@ -76,11 +76,11 @@ RSpec.describe Merchant, type: :model do
   let!(:football) { sam.items.create!(name: "Football", description: "This a football", unit_price: 3000, status: 0) }
   let!(:baseball) { sam.items.create!(name: "Baseball", description: "This a baseball", unit_price: 2500, status: 0) }
   let!(:glove) { sam.items.create!(name: "Baseball Glove", description: "This a baseball glove", unit_price: 4000, status: 1) }
-  let!(:owl) { sam.items.create!(name: "Owl", description: "It eats mice. And maybe your face.", unit_price: 54999) }
-  let!(:sponge) { sam.items.create!(name: "Sponge", description: "His name is Bob.", unit_price: 99) }
-  let!(:vinyl) { sam.items.create!(name: "Unknown Vinyl", description: "A vinyl. Who knows what's on it?", unit_price: 999999) }
-  let!(:lunchbox) { sam.items.create!(name: "Lunch Box", description: "Molded sandvich included", unit_price: 5693) }
-  let!(:macguffin_muffins) { sam.items.create!(name: "The Macguffin Muffins", description: "https://youtu.be/di7DI6Q7JXA?t=39", unit_price: 99999999) }
+  let!(:owl) { sam.items.create!(name: "Owl", description: "It eats mice. And maybe your face.", unit_price: 54999, status: 1) }
+  let!(:sponge) { sam.items.create!(name: "Sponge", description: "His name is Bob.", unit_price: 99, status: 1) }
+  let!(:vinyl) { sam.items.create!(name: "Unknown Vinyl", description: "A vinyl. Who knows what's on it?", unit_price: 999999, status: 1) }
+  let!(:lunchbox) { sam.items.create!(name: "Lunch Box", description: "Molded sandvich included", unit_price: 5693, status: 0) }
+  let!(:macguffin_muffins) { sam.items.create!(name: "The Macguffin Muffins", description: "https://youtu.be/di7DI6Q7JXA?t=39", unit_price: 99999999, status: 0) }
 
   let!(:transaction_football1) { invoice1.transactions.create!(result: 1) }
   let!(:transaction_baseball1) { invoice1.transactions.create!(result: 0) }
@@ -131,6 +131,7 @@ RSpec.describe Merchant, type: :model do
     Transaction.create!(invoice_id: fishnet_tights_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "failed")
   end
   
+
   describe 'instance methods' do
     it '#merchant_invoices' do
       expect(sam.merchant_invoices).to eq([invoice1, invoice2, invoice_owl, invoice_sponge, invoice_vinyl, invoice_lunchbox, invoice_macguffin_muffins])
@@ -151,11 +152,11 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '#enabled_items' do
-      expect(sam.enabled_items).to eq([football, baseball, owl, sponge, vinyl, lunchbox, macguffin_muffins])
+      expect(sam.enabled_items).to eq([football, baseball, lunchbox, macguffin_muffins])
     end
 
     it '#disabled_items' do 
-      expect(sam.disabled_items).to eq([glove])
+      expect(sam.disabled_items).to eq([glove, owl, sponge, vinyl])
     end
 
     it '#merchant_top_5_customers' do 
@@ -183,6 +184,18 @@ RSpec.describe Merchant, type: :model do
 
     it '.enabled_merchants' do 
       expect(Merchant.enabled_merchants).to eq([sam])
+    end
+  end
+  
+  describe 'class methods' do
+    context '#create_new_merchant()' do
+      it "creates a new merchant to the database" do 
+        merchant_params = {
+          name: "Tidus' Surf Shop"
+        }
+
+        expect(Merchant.create_new_merchant(merchant_params)).to eq(Merchant.all.last)
+      end
     end
   end
 end

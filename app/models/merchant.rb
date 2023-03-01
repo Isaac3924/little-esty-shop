@@ -10,6 +10,12 @@ class Merchant < ApplicationRecord
 
   scope :disabled_merchants, -> { where("status = 1")}
   
+  validates_presence_of :name
+
+  def self.create_new_merchant(merchant_params)
+    create(merchant_params)
+  end
+
   def merchant_invoices
     invoices.distinct.order(:id)
   end
