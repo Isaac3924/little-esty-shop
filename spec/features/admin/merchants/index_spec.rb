@@ -9,12 +9,12 @@ RSpec.describe "Admin Merchants Index", type: :feature do
   let!(:no) { Merchant.create!(name: "Not Top 5") } 
 
   let!(:owl) { bob.items.create!(name: "Owl", description: "It eats mice. And maybe your face.", unit_price: 54999) }
+  let!(:lunchbox) { dob.items.create!(name: "Lunch Box", description: "Molded sandvich included", unit_price: 5693) }
+  let!(:ring) { bob.items.create!(name: "Emerald inset Ring", description: "Insert into small child's mouth", unit_price: 54705, status: 0) }
   let!(:sponge) { rob.items.create!(name: "Sponge", description: "His name is Bob.", unit_price: 99) }
   let!(:vinyl) { hob.items.create!(name: "Unknown Vinyl", description: "A vinyl. Who knows what's on it?", unit_price: 999999) }
-  let!(:lunchbox) { dob.items.create!(name: "Lunch Box", description: "Molded sandvich included", unit_price: 5693) }
   let!(:macguffin_muffins) { zob.items.create!(name: "The Macguffin Muffins", description: "https://youtu.be/di7DI6Q7JXA?t=39", unit_price: 99999999) }
   let!(:lipstick) { no.items.create!(name: "Lipstick", description: "It's red flavoured", unit_price: 4500, status: 0) }
-  let!(:ring) { bob.items.create!(name: "Emerald inset Ring", description: "Insert into small child's mouth", unit_price: 54705, status: 0) }
     
   let!(:nkelthuraksyyll) { Customer.create!(first_name: "N'kelthuraksyyll", last_name: "The unboud, Lord of ten Thousand chains unBroken, Vanquisher of KMart") }
   let!(:phil) { Customer.create!(first_name: "Phil", last_name: "Phil") } 
@@ -165,7 +165,7 @@ RSpec.describe "Admin Merchants Index", type: :feature do
       end
 
       it "can see the names of the top 5 merchants ranked by total revenue generated" do
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           expect("Hob's Hoootenanies").to appear_before("7-11")
           expect("7-11").to appear_before("Rob's Rarities")
           expect("Rob's Rarities").to appear_before("Dob's Dineries")
@@ -175,35 +175,35 @@ RSpec.describe "Admin Merchants Index", type: :feature do
       end
 
       it "I see that each name is a link that leads to its corresponding adminmerchant show page" do
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           click_link hob.name
           expect(current_path).to eq(admin_merchant_path(hob))
         end
 
         visit admin_merchants_path
 
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           click_link zob.name
           expect(current_path).to eq(admin_merchant_path(zob))
         end
 
         visit admin_merchants_path
 
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           click_link rob.name
           expect(current_path).to eq(admin_merchant_path(rob))
         end
 
         visit admin_merchants_path
 
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           click_link dob.name
           expect(current_path).to eq(admin_merchant_path(dob))
         end
 
         visit admin_merchants_path
 
-        within 'ul#top_merchant_list' do
+        within 'ol#top_merchant_list' do
           click_link bob.name
           expect(current_path).to eq(admin_merchant_path(bob))
         end
@@ -212,11 +212,22 @@ RSpec.describe "Admin Merchants Index", type: :feature do
       end
 
       it "I see the total revenue generated next to each of the merchants" do
-        expect(page).to have_content("Hob's Hoootenanies $299,999.97")
-        expect(page).to have_content("7-11 $6,999.93")
-        expect(page).to have_content("Rob's Rarities $25.08")
-        expect(page).to have_content("Dob's Dineries $5.00")
-        expect(page).to have_content("Bob's Beauties $3.01")
+        expect(page).to have_content("Hob's Hoootenanies - $299,999.97")
+        expect(page).to have_content("7-11 - $6,999.93")
+        expect(page).to have_content("Rob's Rarities - $25.08")
+        expect(page).to have_content("Dob's Dineries - $5.00")
+        expect(page).to have_content("Bob's Beauties - $3.01")
+      end
+
+      it "shows the top day for a merchant below the merchant and revenue" do
+        visit admin_merchants_path
+
+        hob = Merchant.top_5_merchants.first
+
+        within("div#top_merchants_info-#{hob.id}") do
+          expect(page).to have_content("Hob's Hoootenanies - $299,999.97")
+          expect(page).to have_content("Top day for #{hob.name} was #{hob.best_date_of_sales.strftime('%-m/%-d/%y')}")
+        end
       end
     end
   end

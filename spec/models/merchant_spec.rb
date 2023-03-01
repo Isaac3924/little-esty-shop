@@ -35,16 +35,16 @@ RSpec.describe Merchant, type: :model do
   let!(:josalyn) { Customer.create!(first_name: "Josalyn", last_name: "Schitt") }
   let!(:stevie) { Customer.create!(first_name: "Stevie", last_name: "Budd") }
 
-  let!(:black_dress_inv) { moira.invoices.create!(status: "completed") }
-  let!(:black_sunglasses_inv) { moira.invoices.create!(status: "completed") }
-  let!(:black_feather_boa_inv) { moira.invoices.create!(status: "completed") }
-  let!(:obsidian_ring_inv) { moira.invoices.create!(status: "completed") }
-  let!(:red_lipstick_inv) { moira.invoices.create!(status: "completed") }
+  let!(:black_dress_inv) { moira.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:black_sunglasses_inv) { moira.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:black_feather_boa_inv) { moira.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:obsidian_ring_inv) { moira.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:red_lipstick_inv) { moira.invoices.create!(status: "completed", updated_at: Date.yesterday) }
 
-  let!(:gold_bangle_inv) { alexis.invoices.create!(status: "completed") }
-  let!(:boho_dress_inv) { alexis.invoices.create!(status: "completed") }
-  let!(:headband_inv) { alexis.invoices.create!(status: "completed") }
-  let!(:hoop_earrings_inv){ alexis.invoices.create!(status: "completed") }
+  let!(:gold_bangle_inv) { alexis.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:boho_dress_inv) { alexis.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:headband_inv) { alexis.invoices.create!(status: "completed", updated_at: Date.yesterday) }
+  let!(:hoop_earrings_inv){ alexis.invoices.create!(status: "completed", updated_at: Date.yesterday) }
 
   let!(:titanium_ring_inv) { david.invoices.create!(status: "completed") }
   let!(:hand_cream_inv) { david.invoices.create!(status: "completed") }
@@ -64,6 +64,8 @@ RSpec.describe Merchant, type: :model do
   let!(:invoice1) { Invoice.create!(customer_id: this_gai_ovah_hea.id, created_at: Date.yesterday) } 
   let!(:invoice2) { Invoice.create!(customer_id: this_gai_ovah_hea.id, created_at: Date.tomorrow) } 
   let!(:invoice3) { Invoice.create!(customer_id: this_gai_ovah_hea.id) } 
+
+
   let!(:invoice_owl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "cancelled") }
   let!(:invoice_sponge) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed") }
   let!(:invoice_vinyl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed") }
@@ -237,20 +239,26 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe 'class methods' do
-    it '#top_5_merchants' do
-      expect(Merchant.top_5_merchants).to eq([rose, sam, rob, combo, eenus])
+    context '#top_5_merchants' do
+      it "returns the top 5 merchants" do
+        expect(Merchant.top_5_merchants).to eq([rose, sam, rob, combo, eenus])
+      end
+      
+      it "returns the date of most sucessfully closed invoices" do
+        rose = Merchant.top_5_merchants.first
+    
+        expect(rose.best_date_of_sales.strftime('%-m/%-d/%y')).to eq(Date.today.strftime('%-m/%-d/%y'))
+      end
     end
-  end
-  
-  describe 'class methods' do
+
     context '#create_new_merchant()' do
       it "creates a new merchant to the database" do 
         merchant_params = {
           name: "Tidus' Surf Shop"
         }
-
+        
         expect(Merchant.create_new_merchant(merchant_params)).to eq(Merchant.all.last)
       end
-    end
+    end    
   end
 end
