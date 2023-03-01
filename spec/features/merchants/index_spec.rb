@@ -35,6 +35,7 @@ RSpec.describe Merchant, type: :feature do
     let!(:invoice20) { Invoice.create!(customer_id: phillip.id) }
 
     let!(:invoice21) { Invoice.create!(customer_id: labonz.id) }
+    let!(:invoice22) { Invoice.create!(customer_id: labonz.id) }
     
     let!(:bob) { Merchant.create!(name: "Bob's Beauties") } 
 
@@ -66,25 +67,26 @@ RSpec.describe Merchant, type: :feature do
       Transaction.create!(invoice_id: invoice5.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
       Transaction.create!(invoice_id: invoice6.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
 
-      Transaction.create!(invoice_id: invoice7.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice8.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice9.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice10.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice11.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice7.id, credit_card_number: 45802512365152013, credit_card_expiration_date: "09/02/2026", result: "success")
+      Transaction.create!(invoice_id: invoice8.id, credit_card_number: 45802512365152013, credit_card_expiration_date: "09/02/2026", result: "success")
+      Transaction.create!(invoice_id: invoice9.id, credit_card_number: 45802512365152013, credit_card_expiration_date: "09/02/2026", result: "success")
+      Transaction.create!(invoice_id: invoice10.id, credit_card_number: 45802512365152013, credit_card_expiration_date: "09/02/2026", result: "success")
+      Transaction.create!(invoice_id: invoice11.id, credit_card_number: 45802512365152013, credit_card_expiration_date: "09/02/2026", result: "success")
 
-      Transaction.create!(invoice_id: invoice12.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice13.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice14.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice15.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice12.id, credit_card_number: 45802512365152014, credit_card_expiration_date: "09/01/2027", result: "success")
+      Transaction.create!(invoice_id: invoice13.id, credit_card_number: 45802512365152014, credit_card_expiration_date: "09/01/2027", result: "success")
+      Transaction.create!(invoice_id: invoice14.id, credit_card_number: 45802512365152014, credit_card_expiration_date: "09/01/2027", result: "success")
+      Transaction.create!(invoice_id: invoice15.id, credit_card_number: 45802512365152014, credit_card_expiration_date: "09/01/2027", result: "success")
 
-      Transaction.create!(invoice_id: invoice16.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice17.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice18.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice16.id, credit_card_number: 45802512365152015, credit_card_expiration_date: "08/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice17.id, credit_card_number: 45802512365152015, credit_card_expiration_date: "08/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice18.id, credit_card_number: 45802512365152015, credit_card_expiration_date: "08/01/2026", result: "success")
 
-      Transaction.create!(invoice_id: invoice19.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
-      Transaction.create!(invoice_id: invoice20.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+      Transaction.create!(invoice_id: invoice19.id, credit_card_number: 45802512365152016, credit_card_expiration_date: "07/01/2027", result: "success")
+      Transaction.create!(invoice_id: invoice20.id, credit_card_number: 45802512365152016, credit_card_expiration_date: "07/01/2027", result: "success")
 
-      Transaction.create!(invoice_id: invoice21.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "failed")
+      Transaction.create!(invoice_id: invoice21.id, credit_card_number: 45802512365152017, credit_card_expiration_date: "09/08/2025", result: "success")
+      Transaction.create!(invoice_id: invoice22.id, credit_card_number: 45802512365152017, credit_card_expiration_date: "09/08/2025", result: "failed")
 
       visit merchant_dashboard_index_path(bob.id)
     end
@@ -153,9 +155,14 @@ RSpec.describe Merchant, type: :feature do
           end
         end
 
-        xit 'Then I see the names of the top 5 customers' do
+        it 'Then I see the names of the top 5 customers' do
           within 'div#fav_customers' do
-            expect(page).to have_content()
+            expect(page).to have_content("Favorite Customers")
+            expect(page).to_not have_content("Ms. Labonz - 1 purchases")
+            expect("Louise Belcher - 6 purchases").to appear_before("Mr. Fischoeder - 5 purchases")
+            expect("Mr. Fischoeder - 5 purchases").to appear_before("Jimmy Pesto - 4 purchases")
+            expect("Jimmy Pesto - 4 purchases").to appear_before("Gale Genarro - 3 purchases")
+            expect("Gale Genarro - 3 purchases").to appear_before("Phillip Frond - 2 purchases")
           end
         end
       end
