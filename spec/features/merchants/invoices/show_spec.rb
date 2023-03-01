@@ -84,7 +84,6 @@ RSpec.describe 'Merchant Invoices', type: :feature do
 
         it 'I see that each invoice item status is a select field, with the current status selected' do
           visit merchant_invoice_path(sam.id, invoice1.id)
-          # save_and_open_page
           within "div#inv_item_status_update-#{football.id}" do
             expect(page).to have_field('Status', with: 'packaged')
             

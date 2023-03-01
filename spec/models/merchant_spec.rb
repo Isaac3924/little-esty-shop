@@ -91,16 +91,16 @@ RSpec.describe Merchant, type: :model do
     @vinyl_inv = InvoiceItem.create!(invoice: invoice_vinyl, item: vinyl, quantity: 3, unit_price: 9999999, status: 2)                          
     @lunchbox_inv = InvoiceItem.create!(invoice: invoice_lunchbox, item: lunchbox, quantity: 500, unit_price: 66666, status: 1)                    
     @macguffin_muffins_inv = InvoiceItem.create!(invoice: invoice_macguffin_muffins, item: macguffin_muffins, quantity: 7, unit_price: 99999, status: 0)    
-    @lipstick_inv = InvoiceItem.create!(invoice: invoice_lipstick, item: lipstick, status: 0) 
-    @ring_inv = InvoiceItem.create!(invoice: invoice_ring, item: ring, status: 0) 
-    @stuff_inv = InvoiceItem.create!(invoice: invoice_stuff, item: stuff, status: 0) 
-    @pizza_inv = InvoiceItem.create!(invoice: invoice_pizza, item: pizza, status: 0) 
-    @pizza_fort_inv = InvoiceItem.create!(invoice: invoice_pizza_fort, item: pizza_fort, status: 0) 
-    @fuzzy_pizza_inv = InvoiceItem.create!(invoice: invoice_fuzzy_pizza, item: fuzzy_pizza, status: 0) 
-    @cream_inv = InvoiceItem.create!(invoice: invoice_cream, item: cream, status: 0) 
-    @ice_inv = InvoiceItem.create!(invoice: invoice_ice, item: ice, status: 0) 
-    @schnitzel_inv = InvoiceItem.create!(invoice: invoice_schnitzel, item: schnitzel, status: 0) 
-    @taco_pizza_inv = InvoiceItem.create!(invoice: invoice_taco_pizza, item: taco_pizza, status: 0) 
+    @lipstick_inv = InvoiceItem.create!(invoice: invoice_lipstick, item: lipstick, quantity: 1, unit_price: 4674, status: 0) 
+    @ring_inv = InvoiceItem.create!(invoice: invoice_ring, item: ring, quantity: 1, unit_price: 54705, status: 0)               
+    @stuff_inv = InvoiceItem.create!(invoice: invoice_stuff, item: stuff, quantity: 1, unit_price: 454, status: 0)              
+    @pizza_inv = InvoiceItem.create!(invoice: invoice_pizza, item: pizza, quantity: 1, unit_price: 6999, status: 0)                 
+    @pizza_fort_inv = InvoiceItem.create!(invoice: invoice_pizza_fort, item: pizza_fort, quantity: 1, unit_price: 7650, status: 0)     
+    @fuzzy_pizza_inv = InvoiceItem.create!(invoice: invoice_fuzzy_pizza, item: fuzzy_pizza, quantity: 1, unit_price: 3975, status: 0)  
+    @cream_inv = InvoiceItem.create!(invoice: invoice_cream, item: cream, quantity: 1, unit_price: 35, status: 0) 
+    @ice_inv = InvoiceItem.create!(invoice: invoice_ice, item: ice, quantity: 1, unit_price: 45, status: 0) 
+    @schnitzel_inv = InvoiceItem.create!(invoice: invoice_schnitzel, quantity: 1, unit_price: 9873, item: schnitzel, status: 0)       
+    @taco_pizza_inv = InvoiceItem.create!(invoice: invoice_taco_pizza, item: taco_pizza, quantity: 1, unit_price: 19999, status: 0)  
   end
 
   describe 'instance methods' do
@@ -143,7 +143,7 @@ RSpec.describe Merchant, type: :model do
 
   describe 'class methods' do
     it '#top_5_merchants' do
-      expect(Merchant.top_5_merchants).to eq([sam])
+      expect(Merchant.top_5_merchants).to eq([sam, rob, combo, eenus, franklin])
     end
   end
 end
