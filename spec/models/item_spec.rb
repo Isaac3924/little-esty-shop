@@ -51,9 +51,9 @@ RSpec.describe Item, type: :model do
 
   before (:each) do 
     @cool_dude = Merchant.create!(name: "Cool Dude's Trippy Emporium")
-    InvoiceItem.create!(invoice: invoice1, item: item6, quantity: 10, unit_price: 900, status: 2)            
-    InvoiceItem.create!(invoice: invoice2, item: item5, quantity: 10, unit_price: 800, status: 2)               
-    InvoiceItem.create!(invoice: invoice3, item: item4, quantity: 10, unit_price: 700, status: 2)         
+    InvoiceItem.create!(invoice: invoice1, item: item6, quantity: 15, unit_price: 900, status: 2)            
+    InvoiceItem.create!(invoice: invoice2, item: item5, quantity: 15, unit_price: 800, status: 2)               
+    InvoiceItem.create!(invoice: invoice3, item: item4, quantity: 15, unit_price: 700, status: 2)         
     InvoiceItem.create!(invoice: invoice4, item: item3, quantity: 10, unit_price: 600, status: 2)        
     InvoiceItem.create!(invoice: invoice5, item: item2, quantity: 10, unit_price: 500, status: 2)               
     InvoiceItem.create!(invoice: invoice6, item: item1, quantity: 10, unit_price: 400, status: 2)             
