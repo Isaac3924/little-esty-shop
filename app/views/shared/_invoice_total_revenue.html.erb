@@ -1,0 +1,4 @@
+<% total_revenue = @invoice.items.sum do |item| %>
+  <% (@invoice.find_invoiceitem_unitprice(item))*(@invoice.find_invoiceitem_quantity(item)) %>
+<% end %>
+<p>Total Revenue: <%= number_to_currency(total_revenue/100.0)  %></p>
