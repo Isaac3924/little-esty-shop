@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 RSpec.describe "Admin Merchants Index", type: :feature do 
   let!(:bob) { Merchant.create!(name: "Bob's Beauties", status: 0) } 
   let!(:rob) { Merchant.create!(name: "Rob's Rarities") } 
@@ -65,14 +66,29 @@ RSpec.describe "Admin Merchants Index", type: :feature do
         expect(page).to have_content("7-11")
         expect(page).to have_content("#{zob.name}")
       end
+
+      it 'I see a link to create a new merchant' do
+        within("header#admin_header") do
+          expect(page).to have_link("Create New Merchant")
+        end
+      end
+
+      it "When I click on the link, I am taken to a form that allows me to add merchant information." do
+        click_link "Create New Merchant"
+
+        expect(current_path).to eq(new_admin_merchant_path)
+      end
+
       
       it 'next to each merchant I see a button to disable or enable that merchant' do
+
         within "div#enabled_merchant-#{bob.id}" do
           expect(page).to have_button('Disable')
         end
         within "div#enabled_merchant-#{hob.id}" do
           expect(page).to have_button('Disable')
         end
+        
         within "div#disabled_merchant-#{rob.id}" do
           expect(page).to have_button('Enable')
         end

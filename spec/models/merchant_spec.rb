@@ -1,19 +1,68 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
+
   describe 'relationships' do
     it { should have_many :items }
     it { should have_many :invoices }
     it { should have_many(:invoice_items).through(:items) }
   end
 
+  let!(:rose) { Merchant.create!(name: "Rose Apothecary") }
+  let!(:black_dress) { rose.items.create!(name: "Black Dress", description: "This a black_dress", unit_price: 3000) }
+  let!(:black_sunglasses) { rose.items.create!(name: " Black Sunglasses", description: "Black sunglasses", unit_price: 2500) }
+  let!(:black_feather_boa) { rose.items.create!(name: "Black Feather Boa", description: "This is a Black Feather Boa", unit_price: 4000) }
+  let!(:obsidian_ring) { rose.items.create!(name: "Obsidian Ring", description: "This is an Obsidian Ring", unit_price: 4000) }
+  let!(:red_lipstick) { rose.items.create!(name: "Red Lipstick", description: "Red lipstick", unit_price: 4000) }
+  let!(:gold_bangle) { rose.items.create!(name: "Gold Bangle", description: "Gold Bangle", unit_price: 4000) }
+  let!(:boho_dress) { rose.items.create!(name: "Boho Dress", description: "Boho Dress", unit_price: 4000) }
+  let!(:headband) { rose.items.create!(name: "Headband", description: "Headband", unit_price: 4000) }
+  let!(:hoop_earrings) { rose.items.create!(name: "Hoop Earrings", description: "Hoop Earrings", unit_price: 4000) }
+  let!(:titanium_ring) { rose.items.create!(name: "Titanium Ring", description: "Titanium Ring", unit_price: 4000) }
+  let!(:hand_cream) { rose.items.create!(name: "Hand Cream", description: "Hand Cream", unit_price: 4000) }
+  let!(:goat_cheese) { rose.items.create!(name: "Goat Cheese", description: "Le Baaa", unit_price: 4000) }
+  let!(:cuff_links) { rose.items.create!(name: "Cuff Links", description: "Cuffin'", unit_price: 4000) }
+  let!(:tie) { rose.items.create!(name: "Tie", description: "Necktie", unit_price: 4000) }
+  let!(:floral_shirt) { rose.items.create!(name: "Floral Shirt", description: "A floral shirt", unit_price: 4000) }
+  let!(:flannel_shirt) { rose.items.create!(name: "Flanel Shirt", description: "Steez", unit_price: 4000) }
+  let!(:fishnet_tights) { rose.items.create!(name: "Fishnet Tights", description: "Oooh la la", unit_price: 4000) }
+
+  let!(:moira) { Customer.create!(first_name: "Moira", last_name: "Rose") }
+  let!(:alexis) { Customer.create!(first_name: "Alexis", last_name: "Rose") }
+  let!(:david) { Customer.create!(first_name: "David", last_name: "Rose") }
+  let!(:johnny) { Customer.create!(first_name: "Johnny", last_name: "Rose") }
+  let!(:roland) { Customer.create!(first_name: "Roland", last_name: "Schitt") }
+  let!(:josalyn) { Customer.create!(first_name: "Josalyn", last_name: "Schitt") }
+  let!(:stevie) { Customer.create!(first_name: "Stevie", last_name: "Budd") }
+
+  let!(:black_dress_inv) { moira.invoices.create!(status: "completed") }
+  let!(:black_sunglasses_inv) { moira.invoices.create!(status: "completed") }
+  let!(:black_feather_boa_inv) { moira.invoices.create!(status: "completed") }
+  let!(:obsidian_ring_inv) { moira.invoices.create!(status: "completed") }
+  let!(:red_lipstick_inv) { moira.invoices.create!(status: "completed") }
+
+  let!(:gold_bangle_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:boho_dress_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:headband_inv) { alexis.invoices.create!(status: "completed") }
+  let!(:hoop_earrings_inv){ alexis.invoices.create!(status: "completed") }
+
+  let!(:titanium_ring_inv) { david.invoices.create!(status: "completed") }
+  let!(:hand_cream_inv) { david.invoices.create!(status: "completed") }
+  let!(:goat_cheese_inv) { david.invoices.create!(status: "completed") }
+
+  let!(:cuff_links_inv) { johnny.invoices.create!(status: "completed") }
+  let!(:tie_inv) { johnny.invoices.create!(status: "completed") }
+  let!(:floral_shirt_inv) { josalyn.invoices.create!(status: "completed") }
+  let!(:flannel_shirt_inv) { stevie.invoices.create!(status: "completed") }
+  let!(:fishnet_tights_inv) { roland.invoices.create!(status: "cancelled") }
+  
   let!(:this_gai_ovah_hea) { Customer.create!(first_name: "Dis", last_name: "Gai") }
   let!(:nkelthuraksyyll) { Customer.create!(first_name: "N'kelthuraksyyll", last_name: "The unboud, Lord of ten Thousand chains unBroken, Vanquisher of KMart") }
   let!(:phil) { Customer.create!(first_name: "Phil", last_name: "Phil") } 
   let!(:ahl) { Customer.create!(first_name: "Bai", last_name: "Ahl") } 
 
   let!(:invoice1) { Invoice.create!(customer_id: this_gai_ovah_hea.id, created_at: Date.yesterday) } 
-  let!(:invoice2) { Invoice.create!(customer_id: this_gai_ovah_hea.id,  created_at: Date.tomorrow) } 
+  let!(:invoice2) { Invoice.create!(customer_id: this_gai_ovah_hea.id, created_at: Date.tomorrow) } 
   let!(:invoice3) { Invoice.create!(customer_id: this_gai_ovah_hea.id) } 
   let!(:invoice_owl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "cancelled") }
   let!(:invoice_sponge) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed") }
@@ -45,6 +94,7 @@ RSpec.describe Merchant, type: :model do
   let!(:football) { sam.items.create!(name: "Football", description: "This a football", unit_price: 3000, status: 0) }
   let!(:baseball) { sam.items.create!(name: "Baseball", description: "This a baseball", unit_price: 2500, status: 0) }
   let!(:glove) { sam.items.create!(name: "Baseball Glove", description: "This a baseball glove", unit_price: 4000, status: 1) }
+
   let!(:owl) { sam.items.create!(name: "Owl", description: "It eats mice. And maybe your face.", unit_price: 54999) }
   let!(:sponge) { sam.items.create!(name: "Sponge", description: "His name is Bob.", unit_price: 99) }
   let!(:vinyl) { sam.items.create!(name: "Unknown Vinyl", description: "A vinyl. Who knows what's on it?", unit_price: 999999) }
@@ -101,7 +151,35 @@ RSpec.describe Merchant, type: :model do
     @ice_inv = InvoiceItem.create!(invoice: invoice_ice, item: ice, quantity: 1, unit_price: 45, status: 0) 
     @schnitzel_inv = InvoiceItem.create!(invoice: invoice_schnitzel, quantity: 1, unit_price: 9873, item: schnitzel, status: 0)       
     @taco_pizza_inv = InvoiceItem.create!(invoice: invoice_taco_pizza, item: taco_pizza, quantity: 1, unit_price: 19999, status: 0)  
+    @black_dress_inv_item = InvoiceItem.create!(invoice_id: black_dress_inv.id, item_id: black_dress.id, status: 2)
+    @gold_bangle_inv_item = InvoiceItem.create!(invoice_id: gold_bangle_inv.id, item_id: gold_bangle.id, status: 2)    
+    @titanium_ring_inv_item = InvoiceItem.create!(invoice_id: titanium_ring_inv.id, item_id: titanium_ring.id, status: 2)
+    @cuff_links_inv_item = InvoiceItem.create!(invoice_id: cuff_links_inv.id, item_id: cuff_links.id, status: 2)
+    @floral_shirt_inv_item = InvoiceItem.create!(invoice_id: floral_shirt_inv.id, item_id: floral_shirt.id, status: 2)
+
+    Transaction.create!(invoice_id: black_dress_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: black_sunglasses_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: black_feather_boa_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: obsidian_ring_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: red_lipstick_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
+
+    Transaction.create!(invoice_id: gold_bangle_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: boho_dress_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: headband_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: hoop_earrings_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+
+    Transaction.create!(invoice_id: titanium_ring_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: hand_cream_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: goat_cheese_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+
+    Transaction.create!(invoice_id: cuff_links_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: tie_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+
+    Transaction.create!(invoice_id: floral_shirt_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: flannel_shirt_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "success")
+    Transaction.create!(invoice_id: fishnet_tights_inv.id, credit_card_number: 45802512365152012, credit_card_expiration_date: "09/01/2026", result: "failed")
   end
+  
 
   describe 'instance methods' do
     it '#merchant_invoices' do
@@ -123,11 +201,28 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '#enabled_items' do
-      expect(sam.enabled_items).to eq([football, baseball, owl, sponge, vinyl, lunchbox, macguffin_muffins])
+      expect(sam.enabled_items).to eq([football, baseball, lunchbox, macguffin_muffins])
     end
 
     it '#disabled_items' do 
-      expect(sam.disabled_items).to eq([glove])
+      expect(sam.disabled_items).to eq([glove, owl, sponge, vinyl])
+    end
+
+    it '#merchant_top_5_customers' do 
+      expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
+      expect(rose.merchant_top_5_customers[0].successful_order).to eq(5)
+
+      expect(rose.merchant_top_5_customers[1].full_name).to eq("#{alexis.first_name} #{alexis.last_name}")
+      expect(rose.merchant_top_5_customers[1].successful_order).to eq(4)
+
+      expect(rose.merchant_top_5_customers[2].full_name).to eq("#{david.first_name} #{david.last_name}")
+      expect(rose.merchant_top_5_customers[2].successful_order).to eq(3)
+
+      expect(rose.merchant_top_5_customers[3].full_name).to eq("#{johnny.first_name} #{johnny.last_name}")
+      expect(rose.merchant_top_5_customers[3].successful_order).to eq(2)
+
+      expect(rose.merchant_top_5_customers[4].full_name).to eq("#{josalyn.first_name} #{josalyn.last_name}")
+      expect(rose.merchant_top_5_customers[4].successful_order).to eq(1)
     end
   end
 
@@ -144,6 +239,18 @@ RSpec.describe Merchant, type: :model do
   describe 'class methods' do
     it '#top_5_merchants' do
       expect(Merchant.top_5_merchants).to eq([sam, rob, combo, eenus, franklin])
+    end
+  end
+  
+  describe 'class methods' do
+    context '#create_new_merchant()' do
+      it "creates a new merchant to the database" do 
+        merchant_params = {
+          name: "Tidus' Surf Shop"
+        }
+
+        expect(Merchant.create_new_merchant(merchant_params)).to eq(Merchant.all.last)
+      end
     end
   end
 end
