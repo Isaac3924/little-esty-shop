@@ -223,6 +223,7 @@ RSpec.describe "Merchant Items", type: :feature do
       end
 
       it "I see a label 'Top selling date for X was'" do
+        save_and_open_page
         expect(page).to have_content("Top selling date for #{vinyl.name} was 1/1/16")
         expect(page).to have_content("Top selling date for #{sponge.name} was 1/1/17")
         expect(page).to have_content("Top selling date for #{macguffin_muffins.name} was 1/1/15")

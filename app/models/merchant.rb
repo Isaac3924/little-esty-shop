@@ -42,6 +42,6 @@ class Merchant < ApplicationRecord
   end
 
   def self.top_5_merchants
-    select('merchants.*, SUM(invoice_items.unit_price * invoice_items.quantity) AS revenue').joins(invoices: [:transactions, :invoice_items]).where(transactions: {result: 'success'}).group('merchants.id').order('revenue DESC').limit(5)  
+    select('merchants.*, SUM(invoice_items.unit_price * invoice_items.quantity) AS revenue, MAX(invoices.updated_at) AS best_date_of_sales').joins(invoices: [:transactions, :invoice_items]).where(transactions: {result: 'success'}).group('merchants.id').order('revenue DESC').limit(5)  
   end
 end
