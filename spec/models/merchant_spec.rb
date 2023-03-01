@@ -101,26 +101,11 @@ RSpec.describe Merchant, type: :model do
     @sponge_inv = InvoiceItem.create!(invoice: invoice_sponge, item: sponge, status: 0)                                                               
     @vinyl_inv = InvoiceItem.create!(invoice: invoice_vinyl, item: vinyl, quantity: 3, unit_price: 9999999, status: 2)                          
     @lunchbox_inv = InvoiceItem.create!(invoice: invoice_lunchbox, item: lunchbox, quantity: 500, unit_price: 66666, status: 1)                    
-    @macguffin_muffins_inv = InvoiceItem.create!(invoice: invoice_macguffin_muffins, item: macguffin_muffins, quantity: 7, unit_price: 99999, status: 0)    
-
-    #Moira inv_items
+    @macguffin_muffins_inv = InvoiceItem.create!(invoice: invoice_macguffin_muffins, item: macguffin_muffins, quantity: 7, unit_price: 99999, status: 0)
     @black_dress_inv_item = InvoiceItem.create!(invoice_id: black_dress_inv.id, item_id: black_dress.id, status: 2)
-    # @obsidian_ring_inv_item = InvoiceItem.create!(invoice_id: obsidian_ring_inv.id, item_id: obsidian_ring.id, status: 2)
-    # @red_lipstick_inv_inv_item = InvoiceItem.create!(invoice_id: red_lipstick_inv.id, item_id: red_lipstick.id, status: 2)
-    
-    
-    #Alexis inv_items
-    @gold_bangle_inv_item = InvoiceItem.create!(invoice_id: gold_bangle_inv.id, item_id: gold_bangle.id, status: 2)
-    # @boho_dress_inv_item = InvoiceItem.create!(invoice_id: boho_dress_inv.id, item_id: boho_dress.id, status: 2)
-    
-    #David inv_items
+    @gold_bangle_inv_item = InvoiceItem.create!(invoice_id: gold_bangle_inv.id, item_id: gold_bangle.id, status: 2)    
     @titanium_ring_inv_item = InvoiceItem.create!(invoice_id: titanium_ring_inv.id, item_id: titanium_ring.id, status: 2)
-    # @hand_cream_inv_item = InvoiceItem.create!(invoice_id: hand_cream_inv.id, item_id: hand_cream.id, status: 2)
-    
-    #Johnny inv_items
     @cuff_links_inv_item = InvoiceItem.create!(invoice_id: cuff_links_inv.id, item_id: cuff_links.id, status: 2)
-    
-    #Josalyn inv_items
     @floral_shirt_inv_item = InvoiceItem.create!(invoice_id: floral_shirt_inv.id, item_id: floral_shirt.id, status: 2)
 
     Transaction.create!(invoice_id: black_dress_inv.id, credit_card_number: 4654405418249632, credit_card_expiration_date: "09/01/2026", result: "success")
@@ -174,7 +159,6 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '#merchant_top_5_customers' do 
-      # require 'pry'; binding.pry
       expect(rose.merchant_top_5_customers[0].full_name).to eq("#{moira.first_name} #{moira.last_name}")
       expect(rose.merchant_top_5_customers[0].successful_order).to eq(5)
 
