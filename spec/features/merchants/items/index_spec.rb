@@ -22,16 +22,16 @@ RSpec.describe "Merchant Items", type: :feature do
     let!(:lunchbox) { sam.items.create!(name: "Lunch Box", description: "Molded sandvich included", unit_price: 5693) }
     let!(:macguffin_muffins) { sam.items.create!(name: "The Macguffin Muffins", description: "https://youtu.be/di7DI6Q7JXA?t=39", unit_price: 99999999) }
 
-    let!(:invoice_arugula) {Invoice.create!(customer_id: dingus.id, status: "cancelled") }
-    let!(:invoice_tomato) {Invoice.create!(customer_id: dingus.id, status: "completed") }
-    let!(:invoice_football) {Invoice.create!(customer_id: doofus.id) }
-    let!(:invoice_baseball) {Invoice.create!(customer_id: doofus.id, status: "completed") }
-    let!(:invoice_glove) {Invoice.create!(customer_id: doofus.id, status: "completed") }
-    let!(:invoice_owl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "cancelled") }
-    let!(:invoice_sponge) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed") }
-    let!(:invoice_vinyl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed") }
-    let!(:invoice_lunchbox) {Invoice.create!(customer_id: phil.id, status: "cancelled") }
-    let!(:invoice_macguffin_muffins) {Invoice.create!(customer_id: phil.id, status: "completed") }
+    let!(:invoice_arugula) {Invoice.create!(customer_id: dingus.id, status: "cancelled", created_at: Date.new(2022, 1, 1)) }
+    let!(:invoice_tomato) {Invoice.create!(customer_id: dingus.id, status: "completed", created_at: Date.new(2021, 1, 1)) }
+    let!(:invoice_football) {Invoice.create!(customer_id: doofus.id, created_at: Date.new(2020, 1, 1)) }
+    let!(:invoice_baseball) {Invoice.create!(customer_id: doofus.id, status: "completed", created_at: Date.new(2019, 1, 1)) }
+    let!(:invoice_glove) {Invoice.create!(customer_id: doofus.id, status: "completed", created_at: Date.new(2018, 1, 1)) }
+    let!(:invoice_owl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "cancelled", created_at: Date.new(2018, 1, 1)) }
+    let!(:invoice_sponge) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed", created_at: Date.new(2017, 1, 1)) }
+    let!(:invoice_vinyl) {Invoice.create!(customer_id: nkelthuraksyyll.id, status: "completed", created_at: Date.new(2016, 1, 1)) }
+    let!(:invoice_lunchbox) {Invoice.create!(customer_id: phil.id, status: "cancelled", created_at: Date.new(2016, 1, 1)) }
+    let!(:invoice_macguffin_muffins) {Invoice.create!(customer_id: phil.id, status: "completed", created_at: Date.new(2015, 1, 1)) }
 
     let!(:transaction_arugula1) { invoice_arugula.transactions.create!(result: 1) }
     let!(:transaction_tomato1) { invoice_tomato.transactions.create!(result: 0) }
@@ -220,6 +220,15 @@ RSpec.describe "Merchant Items", type: :feature do
         expect(page).to have_content("$6,999.93")
         expect(page).to have_content("$722.25")
         expect(page).to have_content("$83.98")
+      end
+
+      it '' do
+        save_and_open_page
+        expect(page).to have_content("Top day for #{vinyl.name} was 1/1/16")
+        expect(page).to have_content("Top day for #{sponge.name} was 1/1/17")
+        expect(page).to have_content("Top day for #{macguffin_muffins.name} was 1/1/15")
+        expect(page).to have_content("Top day for #{baseball.name} was 1/1/19")
+        expect(page).to have_content("Top day for #{glove.name} was 1/1/18")
       end
     end
   end
