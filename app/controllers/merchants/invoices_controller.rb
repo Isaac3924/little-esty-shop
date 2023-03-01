@@ -15,7 +15,6 @@ class Merchants::InvoicesController < ApplicationController
     invoice = merchant.invoices.find(params[:id])
     invoice_item = InvoiceItem.find_by(invoice_id: params[:id], item_id: params[:item_id])
     invoice_item.update(status: params[:status])
-    # require 'pry'; binding.pry
 
     redirect_to merchant_invoice_path(merchant, invoice)
   end

@@ -29,6 +29,10 @@ class Merchant < ApplicationRecord
     items.joins(invoice_items: {invoice: :transactions}).where(transactions: {result: 0}).group(:id).select('items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue').order('total_revenue DESC').limit(5)
   end
 
+  def merchant_top_5_customers
+    self.customers.joins(:transactions).where(transactions: {result: 'success'}).group("customers.id").select("CONCAT(customers.first_name,' ', customers.last_name) AS full_name, COUNT(DISTINCT transactions.id) AS successful_order").order(successful_order: :desc, full_name: :asc).limit(5)
+  end
+
   def enabled_items
     items.where(status: 0)
   end
