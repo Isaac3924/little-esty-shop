@@ -14,7 +14,7 @@ class Item < ApplicationRecord
 
   def best_day
     self.invoices.joins(:transactions)
-    .select("invoices.created_at AS inv_date, SUM(invoice_items.unit_price * invoice_items.quantity) AS most_sales")
+    .select("invoices.created_at AS inv_date, SUM(invoice_items.quantity) AS most_sales")
     .where(transactions: {result: 0})
     .order(most_sales: :desc, inv_date: :desc)
     .group("invoices.created_at").first.inv_date
