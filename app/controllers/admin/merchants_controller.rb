@@ -41,7 +41,7 @@ class Admin::MerchantsController < ApplicationController
       flash[:success] = "Merchant Successfully Added"
     else
       redirect_to new_admin_merchant_path
-      flash[:error] = error_message(@new_merchanterrors)
+      flash[:error] = error_message(@new_merchant.errors)
     end
   end
 

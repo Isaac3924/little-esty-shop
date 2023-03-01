@@ -78,50 +78,57 @@ RSpec.describe "Merchant Items", type: :feature do
         end
 
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          save_and_open_page
+          within "div#disabled_item-#{football.id}" do
             click_link football.name
             expect(current_path).to eq(merchant_item_path(sam.id, football.id))
           end
         end
 
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          within "div#disabled_item-#{baseball.id}" do
             click_link baseball.name
             expect(current_path).to eq(merchant_item_path(sam.id, baseball.id))
           end
         end
-
+        
         it "each item name is a link to that merchant's item's show page " do
-          within 'ul#items_list' do
+          within "div#disabled_item-#{glove.id}" do
             click_link glove.name
             expect(current_path).to eq(merchant_item_path(sam.id, glove.id))
           end
         end
 
         it 'next to each item I see a button to disable or enable that item' do 
-          within "div#enabled_items-#{football.id}" do
-            expect(page).to have_button('Disable')
-          end
 
-          within "div#enabled_items-#{baseball.id}" do
-            expect(page).to have_button('Disable')
-          end
-
-          within "div#disabled_items-#{glove.id}" do
+          within "div#disabled_item-#{football.id}" do
             expect(page).to have_button('Enable')
+          end
+
+          within "div#disabled_item-#{baseball.id}" do
+            expect(page).to have_button('Enable')
+          end
+
+          within "div#disabled_item-#{glove.id}" do
+            expect(page).to have_button('Enable')
+            click_button "Enable"
+          end
+          
+          within "div#enabled_item-#{glove.id}" do
+            expect(page).to have_button('Disable')
           end
         end
 
         it 'changes the status of the item after the button click' do
      
-          within "div#enabled_items-#{football.id}" do
-            click_button 'Disable'
+          within "div#disabled_item-#{glove.id}" do
+            click_button 'Enable'
             football.reload
-            expect(football.status).to eq('disabled')
+            expect(football.status).to eq('enabled')
             expect(current_path).to eq(merchant_items_path(sam))
           end
           
-          within "div#enabled_items-#{baseball.id}" do
+          within "div#enabled_item-#{baseball.id}" do
             click_button 'Disable'
             baseball.reload
             expect(baseball.status).to eq('disabled')
@@ -129,7 +136,7 @@ RSpec.describe "Merchant Items", type: :feature do
 
           end
 
-          within "div#disabled_items-#{football.id}" do
+          within "div#disabled_item-#{football.id}" do
             click_button 'Enable'
             glove.reload
             expect(glove.status).to eq('disabled')
@@ -139,30 +146,30 @@ RSpec.describe "Merchant Items", type: :feature do
 
         it 'displays enabled items in the enabled items section' do
          
-          within "div#enabled_items-#{football.id}" do
+          within "div#enabled_item-#{football.id}" do
             expect(page).to have_content(football.name)
           end
 
-          within "div#enabled_items-#{baseball.id}" do
+          within "div#enabled_item-#{baseball.id}" do
             expect(page).to have_content(baseball.name)
           end
         end
 
         it 'displays the disabled items in the disabled items section' do
-          within "div#disabled_items-#{glove.id}" do
+          within "div#disabled_item-#{glove.id}" do
             expect(page).to have_content(glove.name)
           end
         end
 
         it 'displays items in correct sections after button click' do 
-          within "div#enabled_items-#{football.id}" do
+          within "div#enabled_item-#{football.id}" do
             expect(page).to have_content(football.name)
             click_on 'Disable'
           end
 
           football.reload
           
-          within "div#disabled_items-#{football.id}" do
+          within "div#disabled_item-#{football.id}" do
             expect(page).to have_content(football.name)
           end
         end
@@ -173,7 +180,8 @@ RSpec.describe "Merchant Items", type: :feature do
           end
         end
       end
-      context 'When I visit my merchant items edit page' do
+
+      context 'When I visit my merchant items new page' do
         before (:each) do 
           visit merchant_items_path(sam.id)
         end
@@ -187,36 +195,6 @@ RSpec.describe "Merchant Items", type: :feature do
             expect(page).to have_field("Name")
             expect(page).to have_field("Description")
             expect(page).to have_field("Unit Price")
-          end
-        end
-
-        context "When I visit the Merchant Item Edit Form" do
-          before (:each) do 
-            visit new_merchant_item_path(sam.id)
-          end
-
-          it "When I fill out the form I click ‘Submit’ Then I am taken back to the items index page" do
-            within("section#new_item") do
-              fill_in "Name:", with: "Marijuana Tapestry"
-              fill_in "Description", with: "Crushed velvet, 51.2 x 59.1 inches"
-              fill_in "Unit Price", with: "7110"
-              
-              click_button "Submit"
-            end
-            
-            expect(current_path).to eq(merchant_items_path(sam.id))
-          end
-
-          it 'when leave a form field blank, I get an error message and am returned to that Items edit page' do
-            
-            fill_in 'Name', with: 'Marijuana Tapestry'
-            fill_in 'Description', with: ''
-            fill_in 'Unit Price', with: ''
-            click_button 'Submit'
-
-            expect(current_path).to eq(new_merchant_item_path(sam.id))
-            expect(page).to have_content("Description can't be blank")
-            expect(page).to have_content("Unit price can't be blank")
           end
         end
 

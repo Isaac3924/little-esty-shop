@@ -38,9 +38,9 @@ RSpec.describe 'Admin Merchants', type: :feature do
           fill_in 'Merchant Name:', with: ''
           click_button 'Submit'
         end
-
+        
         expect(current_path).to eq(new_admin_merchant_path)
-        expect(page).to have_content("Invalid Entry")
+        expect(page).to have_content("Name can't be blank")
       end
     end
   end
