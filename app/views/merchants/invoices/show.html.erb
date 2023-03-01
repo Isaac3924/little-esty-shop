@@ -14,25 +14,19 @@
 
 <section id="item_info">
   <h3>Items on this Invoice:</h3>
-    <% @invoice.items.each do |item| %>
-      <p><strong>Item Name </strong><%= item.name %></p>
-      <p><strong>Quantity </strong><%= @invoice.find_invoiceitem_quantity(item) %></p>
-      <p><strong>Unit Price </strong><%= number_to_currency(@invoice.find_invoiceitem_unitprice(item) / 100) %></p>
-      
-      <div id="inv_item_status_update-<%= item.id %>">
-        <%= form_with url: merchant_invoice_path(@merchant.id, @invoice.id), method: :patch, local: true do |form| %>
-          <%= form.hidden_field :item_id, value: item.id %>
-          <strong><%= form.label :status %></strong>
-          <%= form.select :status, ["pending", "packaged", "shipped"], selected: @invoice.find_invoiceitem_status(item) %>
-          <%= form.submit "Update Item Status" %>
-        <% end %>
-      </div>
-      <br>
-    <% end %>
+  <% @invoice.items.each do |item| %>
+    <p><strong>Item Name </strong><%= item.name %></p>
+    <p><strong>Quantity </strong><%= @invoice.find_invoiceitem_quantity(item) %></p>
+    <p><strong>Unit Price </strong><%= number_to_currency(@invoice.find_invoiceitem_unitprice(item) / 100.0) %></p>
+    
+    <div id="inv_item_status_update-<%= item.id %>">
+      <%= form_with url: merchant_invoice_path(@merchant.id, @invoice.id), method: :patch, local: true do |form| %>
+        <%= form.hidden_field :item_id, value: item.id %>
+        <strong><%= form.label :status %></strong>
+        <%= form.select :status, ["pending", "packaged", "shipped"], selected: @invoice.find_invoiceitem_status(item) %>
+        <%= form.submit "Update Item Status" %>
+      <% end %>
+    </div>
+    <br>
+  <% end %>
 </section>
-
-
- <%# <% total_revenue = @inv_items.sum do |inv_it| %>
-    <%# <% ((inv_it.quantity) * (inv_it.unit_price) / 100.0) %>
-  <%# <% end %>
-  <%# <p>Total Revenue: <%= number_to_currency(total_revenue) %>
