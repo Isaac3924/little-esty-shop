@@ -18,15 +18,4 @@ class Merchants::InvoicesController < ApplicationController
 
     redirect_to merchant_invoice_path(merchant, invoice)
   end
-
-  private
-# don't seem to need these? 
-
-  # def invoice_params
-  #   params.require(:invoice).permit(:status, :customer_id)
-  # end
-
-  # def invoice_item_params
-  #   params.require(:invoice_items).permit(:status)
-  # end
 end
