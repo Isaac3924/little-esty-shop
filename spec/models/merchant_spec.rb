@@ -201,11 +201,11 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '#enabled_items' do
-      expect(sam.enabled_items).to eq([football, baseball, lunchbox, macguffin_muffins])
+      expect(sam.enabled_items).to eq([football, baseball])
     end
 
     it '#disabled_items' do 
-      expect(sam.disabled_items).to eq([glove, owl, sponge, vinyl])
+      expect(sam.disabled_items).to eq([glove, owl, sponge, vinyl, lunchbox, macguffin_muffins])
     end
 
     it '#merchant_top_5_customers' do 
@@ -228,7 +228,7 @@ RSpec.describe Merchant, type: :model do
 
   describe '.scope' do 
     it '.disabled_merchants' do 
-      expect(Merchant.disabled_merchants).to eq([bob, rob, fatty, franklin, butt, eenus])
+      expect(Merchant.disabled_merchants).to eq([rose, bob, rob, fatty, franklin, butt, eenus])
     end
 
     it '.enabled_merchants' do 
@@ -238,7 +238,7 @@ RSpec.describe Merchant, type: :model do
 
   describe 'class methods' do
     it '#top_5_merchants' do
-      expect(Merchant.top_5_merchants).to eq([sam, rob, combo, eenus, franklin])
+      expect(Merchant.top_5_merchants).to eq([rose, sam, rob, combo, eenus])
     end
   end
   
