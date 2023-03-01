@@ -222,13 +222,12 @@ RSpec.describe "Merchant Items", type: :feature do
         expect(page).to have_content("$83.98")
       end
 
-      it '' do
-        save_and_open_page
-        expect(page).to have_content("Top day for #{vinyl.name} was 1/1/16")
-        expect(page).to have_content("Top day for #{sponge.name} was 1/1/17")
-        expect(page).to have_content("Top day for #{macguffin_muffins.name} was 1/1/15")
-        expect(page).to have_content("Top day for #{baseball.name} was 1/1/19")
-        expect(page).to have_content("Top day for #{glove.name} was 1/1/18")
+      it "I see a label 'Top selling date for X was'" do
+        expect(page).to have_content("Top selling date for #{vinyl.name} was 1/1/16")
+        expect(page).to have_content("Top selling date for #{sponge.name} was 1/1/17")
+        expect(page).to have_content("Top selling date for #{macguffin_muffins.name} was 1/1/15")
+        expect(page).to have_content("Top selling date for #{baseball.name} was 1/1/19")
+        expect(page).to have_content("Top selling date for #{glove.name} was 1/1/18")
       end
     end
   end
