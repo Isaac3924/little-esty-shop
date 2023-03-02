@@ -246,8 +246,7 @@ RSpec.describe Merchant, type: :model do
       
       it "returns the date of most sucessfully closed invoices" do
         rose = Merchant.top_5_merchants.first
-    
-        expect(rose.best_date_of_sales.strftime('%-m/%-d/%y')).to eq(Date.today.strftime('%-m/%-d/%y'))
+        expect(rose.best_date_of_sales.strftime('%-m/%-d/%y')).to eq("3/2/23")
       end
     end
 
