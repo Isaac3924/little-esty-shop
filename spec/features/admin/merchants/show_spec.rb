@@ -139,6 +139,33 @@ RSpec.describe "Admin Merchants Show", type: :feature do
           expect(page).to have_content("Your changes have been successfully updated")
         end
       end
+
+      describe "I update the information incorrectly in the form, I click ‘submit’," do
+        before(:each) do
+          visit edit_admin_merchant_path(bob)
+
+          @edited_name = ""
+
+          fill_in 'Merchant Name:', with: "#{@edited_name}"
+          click_button "Save Changes"
+        end
+      
+
+        it "and I am redirected back to the merchant's admin edit page." do
+          expect(current_path).to eq(edit_admin_merchant_path(bob))
+        end
+      
+        it "I see a flash message stating that the information has been successfully updated." do
+          expect(page).to have_content("Error")
+
+          visit admin_merchant_path(bob)
+
+          within("header#merchant_name") do
+            expect(page).to have_content("#{bob.name}")
+            expect(page).to have_content("Bob's Beauties")
+          end
+        end
+      end
     end
   end
 end
