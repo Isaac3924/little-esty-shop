@@ -20,11 +20,12 @@
   .main_content {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
   }
   #site_title {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: #EEEEEE ;
+    background-color: #EEEEEE;
     font-family: Impact;
   }
