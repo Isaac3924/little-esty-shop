@@ -44,6 +44,7 @@ RSpec.describe "Admin Invoices Index", type: :feature do
            }).
         to_return(status: 200, body: pulls_call, headers: {})
   end
+  
   describe "As an admin" do
     context "When I visit the admin invoices index (/admin/invoices)" do
       before do
