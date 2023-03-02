@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  .main_content {
+    display: flex;
+    flex-direction: row;
+  }
+  #site_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #EEEEEE ;
+    font-family: Impact;
+  }
