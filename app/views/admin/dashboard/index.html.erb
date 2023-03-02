@@ -16,11 +16,6 @@
   </section>
   <section id="top_customers">
     <h4>Top Customers</h4>
-    <ol>
-      <% @top_customers.each do |customer|  %>
-        <li><%= customer.full_name %>- <%= customer.successful_order %> purchases</li>
-      <% end %>
-    </ol>
+    <%= render partial: 'shared/top_customers'  %>
   </section>
 </div>
-

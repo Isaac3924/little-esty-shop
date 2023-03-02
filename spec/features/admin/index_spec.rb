@@ -89,10 +89,10 @@ RSpec.describe 'Admin Dashboard:', type: :feature do
       it 'displays names and number of purchases of the top 5 customers who have the largest number of successful transactions' do        expect(page).to have_content("Top Customers")
         within('section#top_customers') do 
 
-          expect("Moira Rose- 4 purchases").to appear_before("Alexis Rose- 3 purchases")
-          expect("Alexis Rose- 3 purchases").to appear_before("David Rose- 3 purchases")
-          expect("David Rose- 3 purchases").to appear_before("Johnny Rose- 2 purchases")
-          expect("Johnny Rose- 2 purchases").to appear_before("Josalyn Schitt- 2 purchases")
+          expect("Moira Rose - 4 purchases").to appear_before("Alexis Rose - 3 purchases")
+          expect("Alexis Rose - 3 purchases").to appear_before("David Rose - 3 purchases")
+          expect("David Rose - 3 purchases").to appear_before("Johnny Rose - 2 purchases")
+          expect("Johnny Rose - 2 purchases").to appear_before("Josalyn Schitt - 2 purchases")
 
           expect(page).to_not have_content("Stevie Budd")
           expect(page).to_not have_content("Roland Schitt")

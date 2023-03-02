@@ -1,0 +1,5 @@
+<ol>
+  <% @top_customers.each do |customer| %>
+    <li><%= customer.full_name %> - <%= customer.successful_order %> purchases</li>
+  <% end %>
+</ol>
