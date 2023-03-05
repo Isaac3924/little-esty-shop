@@ -131,6 +131,31 @@ RSpec.describe BulkDiscount, type: :feature do
           expect(current_path).to eq(merchant_bulk_discounts_path(bob))
           expect(page).to have_link('50%')
         end
+
+        it 'next to each bulk discount I see a link to delete it' do
+          within "div#bulk_discount-#{bulk_discount20.id}" do
+            expect(page).to have_link('Delete')
+          end
+
+          within "div#bulk_discount-#{bulk_discount25.id}" do
+            expect(page).to have_link('Delete')
+          end
+
+          within "div#bulk_discount-#{bulk_discount30.id}" do
+            expect(page).to have_link('Delete')
+          end
+        end
+
+        it 'When I click the delete link, I am redirected back to the bulk discounts index page, and the bulk discount is no longer present' do
+          expect(page).to have_link("15%")
+
+          within "div#bulk_discount-#{bulk_discount25.id}" do
+            click_link  'Delete'
+          end
+          
+          expect(current_path).to eq(merchant_bulk_discounts_path(bob))
+          expect(page).to_not have_link('15%')
+        end
       end
     end
   end
