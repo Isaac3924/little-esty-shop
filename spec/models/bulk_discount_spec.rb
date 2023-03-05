@@ -57,6 +57,22 @@ RSpec.describe BulkDiscount, type: :model do
   end
   
   describe "Class methods" do
+    let!(:merchant_a) { Merchant.create!(name: "Mr. Chant") }
+  
+    let!(:bulk_discount_a) { merchant_a.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 10) }
+
+    let!(:customer_a) { Customer.create!(first_name: "A", last_name: "A") }
+  
+    let!(:invoice_a) { customer_a.invoices.create!() } 
+  
+    let!(:item_a1) { Item.create!(name: "Toy", description: "For kinder", unit_price: 200, merchant_id: merchant_a.id) }
+    let!(:item_a2) { Item.create!(name: "Stapler", description: "For paper", unit_price: 400, merchant_id: merchant_a.id) }
+  
+  
+    before do
+      @invoice_item_a1 = invoice_a.invoice_items.create!( item: item_a1, quantity: 5, unit_price: 500, status: 0)
+      @invoice_item_a2 = invoice_a.invoice_items.create!( item: item_a2, quantity: 5, unit_price: 600, status: 0)
+    end
     # before(:each) do
     #   merchant = Merchant.create!(name: "Cabbage Merchant")
     #   dis_gai_ovah_hea = Customer.create!(first_name: "Dis", last_name: "Gai")
@@ -76,6 +92,15 @@ RSpec.describe BulkDiscount, type: :model do
     #   it '.invoice_items_not_shipped' do 
     #     expect(Invoice.invoice_items_not_shipped).to eq([@invoice2, @invoice1])
     #   end
+
+    it '#create_new_bulk_discount' do
+      bulk_discount_params = {
+        percentage_discount: 24,
+        quantity_threshold: 711,
+        merchant_id: merchant_a.id
+      }
+      expect(BulkDiscount.create_new_bulk_discount(bulk_discount_params)).to eq(merchant_a.bulk_discounts.last)
+    end
   end
 end
   
