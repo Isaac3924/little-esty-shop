@@ -5,7 +5,7 @@
 <div id="bulk_discounts_list">
   <% @bulk_discounts.each do |bulk_discount| %>
     <div id="bulk_discount-<%=bulk_discount.id%>">
-      <p>Percantage Discount: <%= link_to "#{bulk_discount.percentage_discount}%", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" %> | Needed Bulk: <%= bulk_discount.quantity_threshold %> | <%= link_to "Delete", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" , method: :delete%></p>
+      <p>Percantage Discount: <%= link_to "#{bulk_discount.percentage_discount}%", merchant_bulk_discount_path(@merchant, bulk_discount) %> | Needed Bulk: <%= bulk_discount.quantity_threshold %> | <%= link_to "Delete", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" , method: :delete%></p>
     </div>
   <% end %>
 </div>
