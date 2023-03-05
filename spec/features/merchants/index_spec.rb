@@ -184,17 +184,17 @@ RSpec.describe Merchant, type: :feature do
           visit merchant_bulk_discounts_path(bob)
 
           click_link '10%'
-          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount20.id}")
+          expect(current_path).to eq(merchant_bulk_discount_path(bob, bulk_discount20))
 
           visit merchant_bulk_discounts_path(bob)
 
           click_link '15%'
-          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount25.id}")
+          expect(current_path).to eq(merchant_bulk_discount_path(bob, bulk_discount25))
 
           visit merchant_bulk_discounts_path(bob)
 
           click_link '20%'
-          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount30.id}")
+          expect(current_path).to eq(merchant_bulk_discount_path(bob, bulk_discount30))
 
           expect(page).to_not have_link('3%')
         end
