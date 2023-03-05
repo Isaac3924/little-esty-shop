@@ -7,3 +7,5 @@
     <p>Percantage Discount: <%= link_to "#{bulk_discount.percentage_discount}%", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" %> | Needed Bulk: <%= bulk_discount.quantity_threshold %></p>
   <% end %>
 </div>
+
+<%= link_to "Make New Discount", new_merchant_bulk_discount_path %>
