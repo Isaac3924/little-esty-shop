@@ -15,9 +15,15 @@
 <section id="item_info">
   <h3>Items on this Invoice:</h3>
   <% @invoice.items.each do |item| %>
-    <p><strong>Item Name </strong><%= item.name %></p>
-    <p><strong>Quantity </strong><%= @invoice.find_invoiceitem_quantity(item) %></p>
-    <p><strong>Unit Price </strong><%= number_to_currency(@invoice.find_invoiceitem_unitprice(item) / 100.0) %></p>
+    <div id="inv_item_info-<%= item.id %>">
+      <p><strong>Item Name </strong><%= item.name %>
+          <% if item.find_invoice_item(@invoice).discount_check != nil %>
+            <%= link_to "Applied Discount", merchant_bulk_discount_path(@merchant, item.find_invoice_item(@invoice).discount_check) %>
+          <% end %>
+      </p>
+      <p><strong>Quantity </strong><%= @invoice.find_invoiceitem_quantity(item) %></p>
+      <p><strong>Unit Price </strong><%= number_to_currency(@invoice.find_invoiceitem_unitprice(item) / 100.0) %></p>
+    </div>
     
     <div id="inv_item_status_update-<%= item.id %>">
       <%= form_with url: merchant_invoice_path(@merchant.id, @invoice.id), method: :patch, local: true do |form| %>
