@@ -116,9 +116,9 @@ RSpec.describe 'Merchant Invoices', type: :feature do
           visit merchant_invoice_path(sam.id, invoice1.id)
           
           within'section#inv_info' do
-            expect(page).to have_content("Total Revenue: $331.80")
-            expect(page).to_not have_content("Total Revenue: $55.00")
-            expect(page).to_not have_content("Total Revenue: $48.00")
+            expect(page).to have_content("Total Undiscounted Revenue: $331.80")
+            expect(page).to_not have_content("Total Undiscounted Revenue: $55.00")
+            expect(page).to_not have_content("Total Undiscounted Revenue: $48.00")
           end
         end
 
@@ -177,6 +177,25 @@ RSpec.describe 'Merchant Invoices', type: :feature do
             expect(page).to have_content("Total Discounted Revenue: $199.05")
             expect(page).to_not have_content("Total Revenue: $55.00")
             expect(page).to_not have_content("Total Revenue: $48.00")
+          end
+        end
+
+        it 'I see a link next to each invoice item that leads to the show page for the bulk discount that was applied(if any)' do
+          visit merchant_invoice_path(sam, invoice1)
+
+          within "div#inv_item_info-#{football.id}" do
+            expect(page).to have_link("Applied Discount")
+            click_link "Applied Discount"
+          end
+
+          expect(current_path).to eq(merchant_bulk_discount_path(sam, bulk_discount_50))
+          expect(page).to have_content("Percentage Discount: 50%")
+          expect(page).to have_content("Quantity Threshold: 8")
+
+          visit merchant_invoice_path(sam, invoice1)
+
+          within "div#inv_item_info-#{baseball.id}" do
+            expect(page).to_not have_link("Applied Discount")
           end
         end
       end
