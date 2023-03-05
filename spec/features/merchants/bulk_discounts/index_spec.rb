@@ -152,7 +152,7 @@ RSpec.describe BulkDiscount, type: :feature do
           within "div#bulk_discount-#{bulk_discount25.id}" do
             click_link  'Delete'
           end
-          save_and_open_page
+          
           expect(current_path).to eq(merchant_bulk_discounts_path(bob))
           expect(page).to_not have_link('15%')
         end
