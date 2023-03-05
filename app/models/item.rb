@@ -12,6 +12,10 @@ class Item < ApplicationRecord
     create(item_params)
   end
 
+  def find_invoice_item(invoice)
+    invoice_items.where(item_id: id, invoice_id: invoice.id).take
+  end
+
   def best_day
     self.invoices.joins(:transactions)
     .select("invoices.created_at AS inv_date, SUM(invoice_items.quantity) AS most_sales")
