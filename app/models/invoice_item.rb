@@ -5,6 +5,6 @@ class InvoiceItem < ApplicationRecord
   enum status: ["pending", "packaged", "shipped"]
 
   def discount_check
-    item.merchant.bulk_discounts.where("quantity_threshold <= ?", quantity).order('percentage_discount DESC').limit(1)
+    item.merchant.bulk_discounts.where("quantity_threshold <= ?", quantity).select('percentage_discount').order('percentage_discount DESC').limit(1).select("bulk_discounts.*").take  
   end
 end

@@ -51,7 +51,7 @@ RSpec.describe Item, type: :model do
 
   before (:each) do 
     @cool_dude = Merchant.create!(name: "Cool Dude's Trippy Emporium")
-    InvoiceItem.create!(invoice: invoice1, item: item6, quantity: 15, unit_price: 900, status: 2)            
+    @invoice_item1_6 = InvoiceItem.create!(invoice: invoice1, item: item6, quantity: 15, unit_price: 900, status: 2)            
     InvoiceItem.create!(invoice: invoice2, item: item5, quantity: 15, unit_price: 800, status: 2)               
     InvoiceItem.create!(invoice: invoice3, item: item4, quantity: 15, unit_price: 700, status: 2)         
     InvoiceItem.create!(invoice: invoice4, item: item3, quantity: 10, unit_price: 600, status: 2)        
@@ -86,6 +86,10 @@ RSpec.describe Item, type: :model do
         expect(item7.best_day).to eq('2022-04-03 00:00:00 UTC')
         expect(item3.best_day).to eq('2022-04-01 00:00:00 UTC')
         expect(item3.best_day).to_not eq('2022-02-01 00:00:00 UTC')
+      end
+
+      it '#find_invoice_item' do
+        expect(item6.find_invoice_item(invoice1)).to eq(@invoice_item1_6)
       end
     end
   end

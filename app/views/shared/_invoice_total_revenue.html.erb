@@ -1,4 +1,12 @@
 <% total_revenue = @invoice.items.sum do |item| %>
   <% (@invoice.find_invoiceitem_unitprice(item))*(@invoice.find_invoiceitem_quantity(item)) %>
 <% end %>
-<p>Total Revenue: <%= number_to_currency(total_revenue/100.0)  %></p>
+<p>Total Undiscounted Revenue: <%= number_to_currency(total_revenue/100.0)  %></p>
+<% total_discounted_revenue = @invoice.items.sum do |item| %>
+  <% if (item.find_invoice_item(@invoice).discount_check) != nil %>
+    <% (((@invoice.find_invoiceitem_unitprice(item))*(@invoice.find_invoiceitem_quantity(item))/100.0)*(100.0-(item.find_invoice_item(@invoice).discount_check[:percentage_discount]))) %>
+  <% else %>
+    <% (@invoice.find_invoiceitem_unitprice(item))*(@invoice.find_invoiceitem_quantity(item)) %>
+  <% end %>
+<% end %>
+<p>Total Discounted Revenue: <%= number_to_currency(total_discounted_revenue/100.0)  %></p>
