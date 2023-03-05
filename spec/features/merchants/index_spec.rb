@@ -38,6 +38,7 @@ RSpec.describe Merchant, type: :feature do
     let!(:invoice22) { Invoice.create!(customer_id: labonz.id) }
     
     let!(:bob) { Merchant.create!(name: "Bob's Beauties") } 
+    let!(:ralph) { Merchant.create!(name: "Ralph's Beauties") } 
 
     let!(:coochie_copi) { bob.items.create!(name: "Coochie Copi Night Light", description: "Night Light", unit_price: 5000) }
     let!(:napkin_holder) { bob.items.create!(name: "Napkin Holder", description: "Stainless Steel Napkin Holder", unit_price: 2500) }
@@ -49,6 +50,11 @@ RSpec.describe Merchant, type: :feature do
     let!(:tanning_lotion) { bob.items.create!(name: "Tanning Lotion", description: "Tanning Lotion", unit_price: 3300) }
     let!(:cat_litter) { bob.items.create!(name: "Cat Litter", description: "Cat Litter", unit_price: 3000) }
     let!(:bourbon) { bob.items.create!(name: "Bourbon", description: "That good shiii", unit_price: 6000) }
+
+    let!(:bulk_discount20) { bob.bulk_discounts.create!(percentage_discount: 10, quantity_threshold: 20) }
+    let!(:bulk_discount25) { bob.bulk_discounts.create!(percentage_discount: 15, quantity_threshold: 25) }
+    let!(:bulk_discount30) { bob.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 30) }
+    let!(:bulk_discount15) { ralph.bulk_discounts.create!(percentage_discount: 3, quantity_threshold: 17) }
 
     # before :each do
     #   repo_call = File.read('spec/fixtures/repo_call.json')
@@ -147,6 +153,51 @@ RSpec.describe Merchant, type: :feature do
         # it 'displays the repo name on every page' do
         #   expect(page).to have_content("little-esty-shop")
         # end
+
+        it 'see a link to view all discounts' do
+          expect(page).to have_link('My Discounts')
+        end
+
+        it 'when I click the see all discounts link, I am taken to my bulk discounts index page' do
+          click_link 'My Discounts'
+
+          expect(current_path).to eq(merchant_bulk_discounts_path(bob))
+        end
+
+        it 'I see all of my bulk discounts and their corresponding percentage discounts, and quantity thresholds' do
+          visit merchant_bulk_discounts_path(bob)
+
+          expect(page).to have_link('10%')
+          expect(page).to have_content("20")
+
+          expect(page).to have_link('15%')
+          expect(page).to have_content("25")
+
+          expect(page).to have_link('20%')
+          expect(page).to have_content("30")
+
+          expect(page).to_not have_link('3%')
+          expect(page).to_not have_content("17")
+        end
+
+        it 'I see a link to each bulk discount show page' do
+          visit merchant_bulk_discounts_path(bob)
+
+          click_link '10%'
+          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount20.id}")
+
+          visit merchant_bulk_discounts_path(bob)
+
+          click_link '15%'
+          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount25.id}")
+
+          visit merchant_bulk_discounts_path(bob)
+
+          click_link '20%'
+          expect(current_path).to eq("/merchants/#{bob.id}/bulk_discounts/#{bulk_discount30.id}")
+
+          expect(page).to_not have_link('3%')
+        end
       end
 
       context 'in the section for Items Ready to Ship' do 
