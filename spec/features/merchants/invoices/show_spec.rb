@@ -9,11 +9,15 @@ RSpec.describe 'Merchant Invoices', type: :feature do
 
     let!(:bob) { Merchant.create!(name: "Bob's Beauties") } 
     let!(:sam) { Merchant.create!(name: "Sam's Sports") }
+
     let!(:football) { sam.items.create!(name: "Football", description: "This a football", unit_price: 3000) }
     let!(:baseball) { sam.items.create!(name: "Baseball", description: "This a baseball", unit_price: 2500) }
     let!(:glove) { sam.items.create!(name: "Baseball Glove", description: "This a baseball glove", unit_price: 4000) }
     let!(:arugula) { bob.items.create!(name: "Arugula", description: "This arugula", unit_price: 500) }
     let!(:tomato) { bob.items.create!(name: "Tomato", description: "This a few Tomatos", unit_price: 700) }
+
+    let!(:bulk_discount_50) { sam.bulk_discounts.create!(percentage_discount: 50, quantity_threshold: 8) }
+    let!(:bulk_discount_12) { sam.bulk_discounts.create!(percentage_discount: 12, quantity_threshold: 10) }
 
     # before :each do
     #     repo_call = File.read('spec/fixtures/repo_call.json')
@@ -162,6 +166,17 @@ RSpec.describe 'Merchant Invoices', type: :feature do
             
             expect(current_path).to eq(merchant_invoice_path(sam.id, invoice1.id))
             expect(@inv_item1.status).to eq('shipped')
+          end
+        end
+        
+        it 'I see the total revenue for my merchant from this invoice(without discounts), and the total discounted revenue' do
+          visit merchant_invoice_path(sam.id, invoice1.id)
+          
+          within'section#inv_info' do
+            expect(page).to have_content("Total Undiscounted Revenue: $331.80")
+            expect(page).to have_content("Total Discounted Revenue: $199.05")
+            expect(page).to_not have_content("Total Revenue: $55.00")
+            expect(page).to_not have_content("Total Revenue: $48.00")
           end
         end
       end
