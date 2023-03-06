@@ -49,6 +49,7 @@ group :development, :test do
   gem 'orderly'
   gem 'launchy'
   gem 'webmock'
+  gem 'httparty'
   # gem 'rspec-html', '~> 0.2.13' *inquire with group [https://github.com/bobf/rspec-html] - AKH
 end
   
