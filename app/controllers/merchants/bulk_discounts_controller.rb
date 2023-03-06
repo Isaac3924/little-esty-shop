@@ -2,6 +2,9 @@ class Merchants::BulkDiscountsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @bulk_discounts = @merchant.bulk_discounts
+    WebMock.allow_net_connect!
+    @holiday_info = @holidays = HolidaySearch.new.holiday_information
+    WebMock.disable_net_connect!
   end
 
   def show

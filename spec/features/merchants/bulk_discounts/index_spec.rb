@@ -156,6 +156,20 @@ RSpec.describe BulkDiscount, type: :feature do
           expect(current_path).to eq(merchant_bulk_discounts_path(bob))
           expect(page).to_not have_link('15%')
         end
+
+        it 'I see a section with a header of "Upcoming Holidays"' do
+          within "section#upcoming_holidays" do
+            expect(page).to have_content("Upcoming Holidays")
+          end
+        end
+
+        it 'in the Upcoming Holidays section, the name and date of the next 3 upcoming US holidays are listed' do
+          within "section#upcoming_holidays" do
+            expect(page).to have_content("Good Friday: 2023-04-07")
+            expect(page).to have_content("Memorial Day: 2023-05-29")
+            expect(page).to have_content("Juneteenth: 2023-06-19")
+          end
+        end
       end
     end
   end
