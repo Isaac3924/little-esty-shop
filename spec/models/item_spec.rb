@@ -49,6 +49,9 @@ RSpec.describe Item, type: :model do
   let!(:transaction11) { invoice11.transactions.create!(result: 0) }
   let!(:transaction12) { invoice12.transactions.create!(result: 0) }
 
+  let!(:bulk_discount_50) { bob.bulk_discounts.create!(percentage_discount: 50, quantity_threshold: 8) }
+  let!(:bulk_discount_12) { bob.bulk_discounts.create!(percentage_discount: 12, quantity_threshold: 10) }
+
   before (:each) do 
     @cool_dude = Merchant.create!(name: "Cool Dude's Trippy Emporium")
     @invoice_item1_6 = InvoiceItem.create!(invoice: invoice1, item: item6, quantity: 15, unit_price: 900, status: 2)            
@@ -90,6 +93,10 @@ RSpec.describe Item, type: :model do
 
       it '#find_invoice_item' do
         expect(item6.find_invoice_item(invoice1)).to eq(@invoice_item1_6)
+      end
+
+      it '#find_best_bulk_discount' do
+        expect(item5.find_best_bulk_discount(invoice2)).to eq(bulk_discount_50)
       end
     end
   end

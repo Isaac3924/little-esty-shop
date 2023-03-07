@@ -132,6 +132,21 @@ RSpec.describe BulkDiscount, type: :feature do
           expect(page).to have_link('50%')
         end
 
+        it 'When I fill in the form with invalid data, I am redirected back to the bulk_discount creation page' do
+          expect(page).to_not have_link('50%')
+
+          click_link 'Make New Discount'
+          
+          within("section#new_bulk_discount") do
+            fill_in "Percentage Discount:", with: "This will not work"
+            fill_in "Quantity Threshold", with: "Funny quip"
+            
+            click_button "Submit"
+          end
+          
+          expect(current_path).to eq(new_merchant_bulk_discount_path(bob))
+        end
+
         it 'next to each bulk discount I see a link to delete it' do
           within "div#bulk_discount-#{bulk_discount20.id}" do
             expect(page).to have_link('Delete')
