@@ -16,7 +16,7 @@ RSpec.describe BulkDiscount, type: :feature do
     describe 'As a merchant' do 
       context 'When I visit my bulk discount show page' do 
 
-        it "I see athe bulk discount's quantity threshold and percentage discount" do
+        it "I see the bulk discount's quantity threshold and percentage discount" do
           expect(page).to have_content('Percentage Discount: 10%')
           expect(page).to have_content('Quantity Threshold: 20')
 
@@ -57,6 +57,21 @@ RSpec.describe BulkDiscount, type: :feature do
           expect(current_path).to eq(merchant_bulk_discount_path(bob, bulk_discount20))
           expect(page).to have_content('Percentage Discount: 99%')
           expect(page).to have_content('Quantity Threshold: 3')
+        end
+
+        it "When I change any/all information into dad data and click submit, I am taken back to the edit page" do
+          expect(page).to have_content('Percentage Discount: 10%')
+          expect(page).to have_content('Quantity Threshold: 20')
+
+          click_link 'Edit'
+
+          within ("section#edit_bulk_discount") do
+            fill_in 'Percentage Discount', with: "WRONG"
+            fill_in 'Quantity Threshold', with: "DATA"
+            click_button 'Submit'
+          end
+
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(bob, bulk_discount20))
         end
       end
     end
