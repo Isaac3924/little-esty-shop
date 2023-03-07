@@ -3,7 +3,7 @@
   <p>Status: <%= @invoice.status %></p>
   <p>Created at: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
   <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
-  <%= render partial: 'shared/invoice_total_revenue'  %>
+  <%= render partial: 'shared/invoice_total_revenue', locals:{ get_total_revenue: @invoice.get_total_revenue, get_total_discounted_amount: @invoice.get_total_discounted_amount }  %>
 </section>
 
 <h3>Items on this Invoice:</h3>

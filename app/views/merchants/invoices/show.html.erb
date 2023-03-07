@@ -4,7 +4,7 @@
   <h4>Invoice #<%= @invoice.id %></h4><br>
   <p>Status: <%= @invoice.status %></p><br>
   <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p><br>
-  <%= render partial: 'shared/invoice_total_revenue'  %>
+  <%= render partial: 'shared/invoice_total_revenue', locals:{ get_total_revenue: @invoice.get_total_revenue_from_merchant(@merchant), get_total_discounted_amount: @invoice.get_total_discounted_amount_from_merchant(@merchant) }  %>
 </section>
 
 <section id="cust_info">
@@ -17,8 +17,8 @@
   <% @invoice.items.each do |item| %>
     <div id="inv_item_info-<%= item.id %>">
       <p><strong>Item Name </strong><%= item.name %>
-          <% if item.find_invoice_item(@invoice).discount_check != nil %>
-            <%= link_to "Applied Discount", merchant_bulk_discount_path(@merchant, item.find_invoice_item(@invoice).discount_check) %>
+          <% if item.find_best_bulk_discount(@invoice) != nil %>
+            <%= link_to "Applied Discount", merchant_bulk_discount_path(@merchant, item.find_best_bulk_discount(@invoice)) %>
           <% end %>
       </p>
       <p><strong>Quantity </strong><%= @invoice.find_invoiceitem_quantity(item) %></p>
