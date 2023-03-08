@@ -192,13 +192,11 @@ RSpec.describe BulkDiscount, type: :feature do
         end
 
         it 'in the Upcoming Holidays section, the name and date of the next 3 upcoming US holidays are listed' do
-          # WebMock.allow_net_connect!
           within "section#upcoming_holidays" do
             expect(page).to have_content("Good Friday: 2023-04-07")
             expect(page).to have_content("Memorial Day: 2023-05-29")
             expect(page).to have_content("Juneteenth: 2023-06-19")
           end
-          # WebMock.disable_net_connect!
         end
       end
     end
