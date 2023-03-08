@@ -31,9 +31,8 @@ class Invoice < ApplicationRecord
 
   def get_total_discounted_amount
     
-    var = invoice_items.joins(:bulk_discounts)
-                        .where('bulk_discounts.quantity_threshold <= invoice_items.quantity')
-                        .select("invoice_items.*, MAX((invoice_items.unit_price*invoice_items.quantity) * (bulk_discounts.percentage_discount/100.0)) AS discounted_amount")
+    var = invoice_items.check_quantity
+                        .calculate_discounted_amount
                         .group(:id)
 
                         
@@ -42,10 +41,9 @@ class Invoice < ApplicationRecord
 
   def get_total_discounted_amount_from_merchant(merchant)
     
-    var = invoice_items.joins(:bulk_discounts)
-                        .where('bulk_discounts.quantity_threshold <= invoice_items.quantity')
+    var = invoice_items.check_quantity
                         .where('bulk_discounts.merchant_id = ?', merchant.id)
-                        .select("invoice_items.*, MAX((invoice_items.unit_price*invoice_items.quantity) * (bulk_discounts.percentage_discount/100.0)) AS discounted_amount")
+                        .calculate_discounted_amount
                         .group(:id)
 
                         
