@@ -5,6 +5,8 @@ class InvoiceItem < ApplicationRecord
   
   enum status: ["pending", "packaged", "shipped"]
 
+  scope :revenue, -> { sum("unit_price * quantity") }
+
   #Commenting this out as it is old unneeded code, but leaving it in as reference to show what my thought process was originally.
   #You can see the further logic in the invoice_item_spec file, those tests will also be commented out.
   # def discount_check

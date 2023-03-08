@@ -21,12 +21,12 @@ class Invoice < ApplicationRecord
   end
 
   def get_total_revenue
-    invoice_items.sum("unit_price * quantity")
+    invoice_items.revenue
   end
 
   def get_total_revenue_from_merchant(merchant)
     invoice_items.where(item_id: merchant.items.ids)
-                 .sum("unit_price * quantity")
+                 .revenue
   end
 
   def get_total_discounted_amount
