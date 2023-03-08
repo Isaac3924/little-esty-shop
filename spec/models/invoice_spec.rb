@@ -70,8 +70,8 @@ RSpec.describe Invoice, type: :model do
     end
 
     it "#get_total_discounted_amount" do
-      expect(invoice1.get_total_discounted_amount).to eq(12750)
-      expect(invoice2.get_total_discounted_amount).to eq(375000)
+      expect(invoice1.get_total_discounted_amount.to_f).to eq(12750)
+      expect(invoice2.get_total_discounted_amount.to_f).to eq(375000)
     end
 
     it "#get_total_revenue_from_merchant" do
@@ -79,8 +79,8 @@ RSpec.describe Invoice, type: :model do
     end
 
     it "#get_total_discounted_amount_from_merchant" do
-      expect(invoice3.get_total_discounted_amount_from_merchant(merchant)).to eq(37500)
-      expect(invoice3.get_total_discounted_amount_from_merchant(merchant2)).to eq(0.0)
+      expect(invoice3.get_total_discounted_amount_from_merchant(merchant).to_f).to eq(37500)
+      expect(invoice3.get_total_discounted_amount_from_merchant(merchant2).to_f).to eq(0.0)
 
     end
   end
