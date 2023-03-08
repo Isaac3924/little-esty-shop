@@ -37,7 +37,7 @@ class Invoice < ApplicationRecord
                         .group(:id)
 
                         
-                        total_discount_amount = InvoiceItem.from(var, :var).select("SUM(var.discounted_amount) AS total_discount_amount").take.total_discount_amount.to_f
+                        total_discount_amount = InvoiceItem.from(var, :var).select("SUM(var.discounted_amount) AS total_discount_amount").take.total_discount_amount
   end
 
   def get_total_discounted_amount_from_merchant(merchant)
@@ -49,7 +49,7 @@ class Invoice < ApplicationRecord
                         .group(:id)
 
                         
-                        total_discount_amount = InvoiceItem.from(var, :var).select("SUM(var.discounted_amount) AS total_discount_amount").take.total_discount_amount.to_f
+                        total_discount_amount = InvoiceItem.from(var, :var).select("SUM(var.discounted_amount) AS total_discount_amount").take.total_discount_amount
   end
 
   scope :invoice_items_not_shipped, -> { joins(:invoice_items).where.not(invoice_items: {status: 2})

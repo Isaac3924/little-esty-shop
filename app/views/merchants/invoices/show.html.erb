@@ -4,7 +4,7 @@
   <h4>Invoice #<%= @invoice.id %></h4><br>
   <p>Status: <%= @invoice.status %></p><br>
   <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p><br>
-  <%= render partial: 'shared/invoice_total_revenue', locals:{ get_total_revenue: @invoice.get_total_revenue_from_merchant(@merchant), get_total_discounted_amount: @invoice.get_total_discounted_amount_from_merchant(@merchant) }  %>
+  <%= render partial: 'shared/invoice_total_revenue', locals:{ get_total_revenue: @invoice.get_total_revenue_from_merchant(@merchant), get_total_discounted_amount: @invoice.get_total_discounted_amount_from_merchant(@merchant).to_f }  %>
 </section>
 
 <section id="cust_info">
