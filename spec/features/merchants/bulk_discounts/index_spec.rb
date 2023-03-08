@@ -2,6 +2,19 @@ require 'rails_helper'
 RSpec.describe BulkDiscount, type: :feature do 
 
   describe 'Merchant Bulk Discount Index' do
+    
+    before do
+      holidays = File.read("spec/fixtures/holidays_call.json")
+      stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+        with(
+          headers: {
+            'Accept'=>'*/*',
+            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'User-Agent'=>'Ruby'
+             }).
+           to_return(status: 200, body: holidays, headers: {})
+    end
+
     let!(:louise) { Customer.create!(first_name: "Louise", last_name: "Belcher") }
     let!(:fischoeder) { Customer.create!(first_name: "Mr.", last_name: "Fischoeder") }
     let!(:jimmy) { Customer.create!(first_name: "Jimmy", last_name: "Pesto") }
@@ -179,11 +192,13 @@ RSpec.describe BulkDiscount, type: :feature do
         end
 
         it 'in the Upcoming Holidays section, the name and date of the next 3 upcoming US holidays are listed' do
+          # WebMock.allow_net_connect!
           within "section#upcoming_holidays" do
             expect(page).to have_content("Good Friday: 2023-04-07")
             expect(page).to have_content("Memorial Day: 2023-05-29")
             expect(page).to have_content("Juneteenth: 2023-06-19")
           end
+          # WebMock.disable_net_connect!
         end
       end
     end

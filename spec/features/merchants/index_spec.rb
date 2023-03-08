@@ -2,6 +2,19 @@ require 'rails_helper'
 RSpec.describe Merchant, type: :feature do 
 
   describe 'Merchant Dashboard' do
+
+    before do
+      holidays = File.read("spec/fixtures/holidays_call.json")
+      stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+        with(
+          headers: {
+            'Accept'=>'*/*',
+            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'User-Agent'=>'Ruby'
+             }).
+           to_return(status: 200, body: holidays, headers: {})
+    end
+
     let!(:louise) { Customer.create!(first_name: "Louise", last_name: "Belcher") }
     let!(:fischoeder) { Customer.create!(first_name: "Mr.", last_name: "Fischoeder") }
     let!(:jimmy) { Customer.create!(first_name: "Jimmy", last_name: "Pesto") }
