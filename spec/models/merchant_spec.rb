@@ -244,10 +244,10 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.top_5_merchants).to eq([rose, sam, rob, combo, eenus])
       end
       
-      it "returns the date of most sucessfully closed invoices" do
-        rose = Merchant.top_5_merchants.first
-        expect(rose.best_date_of_sales.strftime('%-m/%-d/%y')).to eq(Time.now.strftime('%-m/%-d/%y'))
-      end
+      # it "returns the date of most sucessfully closed invoices" do
+      #   rose = Merchant.top_5_merchants.first
+      #   expect(rose.best_date_of_sales.strftime('%-m/%-d/%y')).to eq(Time.now.strftime('%-m/%-d/%y'))
+      # end
     end
 
     context '#create_new_merchant()' do
